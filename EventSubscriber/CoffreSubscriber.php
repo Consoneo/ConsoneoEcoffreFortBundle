@@ -1,6 +1,6 @@
 <?php
 
-namespace Consoneo\Bundle\ECoffreFortBundle\EventSubscriber;
+namespace Consoneo\Bundle\EcoffreFortBundle\EventSubscriber;
 
 use Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire;
 use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;

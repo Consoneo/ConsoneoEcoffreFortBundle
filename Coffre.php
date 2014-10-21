@@ -5,7 +5,7 @@ namespace Consoneo\Bundle\EcoffreFortBundle;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
-use Consoneo\Bundle\ECoffreFortBundle\EventSubscriber\CoffreSubscriber;
+use Consoneo\Bundle\EcoffreFortBundle\EventSubscriber\CoffreSubscriber;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
