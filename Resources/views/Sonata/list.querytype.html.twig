@@ -1,0 +1,13 @@
+{% extends admin.getTemplate('base_list_field') %}
+
+{% block field %}
+	{% if value is constant('Consoneo\\Bundle\\EcoffreFortBundle\\Entity\\LogQuery::QUERY_PUT') %}
+		<strong><span class="label label-success">{{ value | raw}}</span></strong>
+	{% elseif value is constant('Consoneo\\Bundle\\EcoffreFortBundle\\Entity\\LogQuery::QUERY_GET') %}
+		<strong><span class="label label-info">{{ value | raw}}</span></strong>
+	{% elseif value is constant('Consoneo\\Bundle\\EcoffreFortBundle\\Entity\\LogQuery::QUERY_DEL')%}
+		<strong><span class="label label-important">{{ value | raw}}</span></strong>
+	{% else %}
+		<strong><span class="label">{{ value | raw}}</span></strong>
+	{% endif %}
+{% endblock %}

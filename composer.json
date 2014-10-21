@@ -1,0 +1,19 @@
+{
+  "name": "consoneo/ecoffre-fort-bundle",
+  "description": "Bundle for mapping HTTP API e-coffre-fort.fr",
+  "authors": [
+    {
+      "name": "gabriel",
+      "email": "gporet@consoneo.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.4.1",
+    "symfony/symfony": ">=2.5.*"
+  },
+  "autoload": {
+    "psr-0": { "Consoneo\\Bundle\\EcoffreFortBundle": "" }
+  },
+  "target-dir": "Consoneo/Bundle/EcoffreFortBundle"
+}

@@ -1,0 +1,17 @@
+services:
+    sonata.admin.ecoffrefort.logquery:
+         class: Consoneo\Bundle\EcoffreFortBundle\Admin\LogQueryAdmin
+         arguments:
+             - ~
+             - Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery
+             - ~
+         tags:
+             - { name: sonata.admin, manager_type: orm, label: LogQuery }
+    sonata.admin.ecoffrefort.annuaire:
+         class: Consoneo\Bundle\EcoffreFortBundle\Admin\AnnuaireAdmin
+         arguments:
+             - ~
+             - Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire
+             - ~
+         tags:
+             - { name: sonata.admin, manager_type: orm, label: Annuaire }
