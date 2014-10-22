@@ -14,9 +14,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class LogQuery
 {
-	const QUERY_PUT =   'PUT';
-	const QUERY_GET =   'GET';
-	const QUERY_DEL =   'DEL';
+	const QUERY_PUT     =   'PUT';
+	const QUERY_GET     =   'GET';
+	const QUERY_DEL     =   'DEL';
+    const QUERY_CERT    =   'CERTIFICAT';
 
 	private $labelReturnCode = [
 		self::QUERY_PUT =>  [
@@ -57,6 +58,20 @@ class LogQuery
 			'-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
 			'-10'   =>  'Erreur interne',
 		],
+        self::QUERY_CERT    =>  [
+            '0'     =>  'Le certificat de conformité a été récupérée',
+            '-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+            '-2'    =>  'PART_ID manquant',
+            '-3'    =>  'IUA manquant',
+            '-4'    =>  '(non utilisé)',
+            '-5'    =>  'PART_ID incorrect',
+            '-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
+            '-7'    =>  'Accès non réalisé en SSL',
+            '-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
+            '-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
+            '-10'   =>  'Erreur interne',
+            '-11'   =>  'Erreur interne HASH',
+        ]
 	];
 
 	/**

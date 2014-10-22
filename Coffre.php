@@ -2,6 +2,7 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle;
 
+use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
@@ -14,6 +15,7 @@ class Coffre {
 	const PUT_URI   =   'https://www.e-coffrefort.fr/httpapi/loadsafe.php';
 	const GET_URI   =   'https://www.e-coffrefort.fr/httpapi/getfile.php';
 	const DEL_URI   =   'https://www.e-coffrefort.fr/httpapi/delfile.php';
+	const CERT_URI  =   'https://www.e-coffrefort.fr/httpapi/getfilecert.php';
 
 	const EXTENDED  =   'Y';
 	const CHARSET   =   'UTF8';
@@ -165,6 +167,32 @@ class Coffre {
 
 		$dispatcher = new EventDispatcher();
 		$dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
+
+		return $response;
+	}
+
+	/**
+	 * API de récupération du certificat de conformité
+	 *
+	 * @param String $iua Identifiant Archive Unique
+	 * @return mixed
+	 */
+	public function getCert($iua)
+	{
+		$yy     = rand(0,99);
+		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
+			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
+		$url    = sprintf('%s?P=%s&MODE=RAW', self::CERT_URI, $key);
+
+
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, $url);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($c);
+		curl_close($c);
+
+		$dispatcher = new EventDispatcher();
+		$dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
 
 		return $response;
 	}

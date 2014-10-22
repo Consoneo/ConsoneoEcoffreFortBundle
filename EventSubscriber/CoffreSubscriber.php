@@ -4,6 +4,7 @@ namespace Consoneo\Bundle\EcoffreFortBundle\EventSubscriber;
 
 use Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire;
 use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
+use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
@@ -36,6 +37,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 				['logQuery'],
 				['delAnnuaire']
 			],
+			CertEvent::NAME =>  'logQuery',
 		);
 	}
 
