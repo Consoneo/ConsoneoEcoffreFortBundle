@@ -52,10 +52,6 @@ class Coffre {
 	private $password;
 
 	/**
-	 * @todo ajouter doctrine, dans le construct + initialiser un dispatcher
-	 */
-
-	/**
 	 * @param $email_origin
 	 * @param $safe_id
 	 * @param $part_id
@@ -195,5 +191,13 @@ class Coffre {
 		$dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
 
 		return $response;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getSafeId()
+	{
+		return $this->safe_id;
 	}
 }
