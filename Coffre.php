@@ -112,9 +112,10 @@ class Coffre
 
 		if ($response) {
 			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
+			return $response;
+		} else {
+			return curl_error($c);
 		}
-
-		return $response;
 	}
 
 	/**
