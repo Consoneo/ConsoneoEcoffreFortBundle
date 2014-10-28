@@ -10,8 +10,8 @@ use Consoneo\Bundle\EcoffreFortBundle\EventSubscriber\CoffreSubscriber;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class Coffre {
-
+class Coffre
+{
 	const PUT_URI   =   'https://www.e-coffrefort.fr/httpapi/loadsafe.php';
 	const GET_URI   =   'https://www.e-coffrefort.fr/httpapi/getfile.php';
 	const DEL_URI   =   'https://www.e-coffrefort.fr/httpapi/delfile.php';
@@ -110,7 +110,9 @@ class Coffre {
 		$response = curl_exec($c);
 		curl_close($c);
 
-		$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
+		if ($response) {
+			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
+		}
 
 		return $response;
 	}
@@ -135,8 +137,9 @@ class Coffre {
 		$response = curl_exec($c);
 		curl_close($c);
 
-		$dispatcher = new EventDispatcher();
-		$dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
+		if ($response) {
+			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
+		}
 
 		return $response;
 	}
@@ -161,8 +164,9 @@ class Coffre {
 		$response = curl_exec($c);
 		curl_close($c);
 
-		$dispatcher = new EventDispatcher();
-		$dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
+		if ($response) {
+			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
+		}
 
 		return $response;
 	}
@@ -187,8 +191,9 @@ class Coffre {
 		$response = curl_exec($c);
 		curl_close($c);
 
-		$dispatcher = new EventDispatcher();
-		$dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
+		if ($response) {
+			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
+		}
 
 		return $response;
 	}
