@@ -84,7 +84,7 @@ class Coffre
 	 * @param string $hdau Héritage Directories All Users
 	 * @return mixed
 	 */
-	public function putFile($docName, $targetDir, $path, $docComment, $extended = self::EXTENDED,
+	public function putFile($docName, $targetDir, $path, $docComment = null, $extended = self::EXTENDED,
 	                        $charset = self::CHARSET, $hdau = self::HDAU)
 	{
 		$post = [
