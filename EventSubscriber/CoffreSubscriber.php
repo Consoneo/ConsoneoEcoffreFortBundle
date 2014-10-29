@@ -20,7 +20,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 	 */
 	private $doctrine;
 
-	public function __Construct(Registry $doctrine)
+	public function __construct(Registry $doctrine)
 	{
 		$this->doctrine =   $doctrine;
 	}

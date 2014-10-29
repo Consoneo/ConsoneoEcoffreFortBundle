@@ -57,7 +57,7 @@ class Coffre
 	 * @param $part_id
 	 * @param $password
 	 */
-	public function __Construct($email_origin, $safe_id, $part_id, $password)
+	public function __construct($email_origin, $safe_id, $part_id, $password)
 	{
 		$this->email_origin =   $email_origin;
 		$this->safe_id      =   $safe_id;
