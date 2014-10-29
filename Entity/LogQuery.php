@@ -192,7 +192,7 @@ class LogQuery
      * Set iua
      *
      * @param string $iua
-     * @return LogQuery
+     * @return Annuaire
      */
     public function setIua($iua)
     {

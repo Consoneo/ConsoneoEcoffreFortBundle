@@ -24,7 +24,7 @@ abstract class QueryEvent extends Event
 	public function __construct($safeId, $iua, $codeRetour)
 	{
 		$this->iua          =   $iua;
-		$this->codeRetour   =   $codeRetour;
+		$this->setCodeRetour($codeRetour);
 	}
 
 	/**
@@ -49,5 +49,14 @@ abstract class QueryEvent extends Event
 	public function getIua()
 	{
 		return $this->iua;
+	}
+
+	public function setCodeRetour($codeRetour)
+	{
+		if (strlen($codeRetour > 3)) {
+			$codeRetour = 0;
+		}
+		$this->codeRetour = $codeRetour;
+		return $this;
 	}
 }

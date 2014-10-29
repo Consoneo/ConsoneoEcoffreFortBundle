@@ -140,9 +140,10 @@ class Coffre
 
 		if ($response) {
 			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
+			return $response;
+		} else {
+			return curl_error($c);
 		}
-
-		return $response;
 	}
 
 	/**
@@ -167,9 +168,10 @@ class Coffre
 
 		if ($response) {
 			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
+			return $response;
+		} else {
+			return curl_error($c);
 		}
-
-		return $response;
 	}
 
 	/**
@@ -194,9 +196,10 @@ class Coffre
 
 		if ($response) {
 			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
+			return $response;
+		} else {
+			return curl_error($c);
 		}
-
-		return $response;
 	}
 
 	/**
