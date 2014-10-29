@@ -54,7 +54,6 @@ class CoffreSubscriber implements EventSubscriberInterface {
 		;
 
 		$this->getManager()->persist($logQuery);
-		$this->getManager()->flush($logQuery);
 	}
 
 	/**
@@ -71,7 +70,6 @@ class CoffreSubscriber implements EventSubscriberInterface {
 		;
 
 		$this->getManager()->persist($putAnnuaire);
-		$this->getManager()->flush($putAnnuaire);
 	}
 
 	/**
@@ -87,7 +85,6 @@ class CoffreSubscriber implements EventSubscriberInterface {
 
 		if ($archive) {
 			$this->getManager()->remove($archive);
-			$this->getManager()->flush($archive);
 		}
 	}
 
