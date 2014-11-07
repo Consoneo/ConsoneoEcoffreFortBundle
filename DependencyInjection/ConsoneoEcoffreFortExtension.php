@@ -55,6 +55,7 @@ class ConsoneoEcoffreFortExtension extends Extension
 	 * @param $name
 	 * @param array $config
 	 * @param ContainerBuilder $container
+	 * @return Reference
 	 */
 	private function newCoffre($name, array $config, ContainerBuilder $container)
 	{
@@ -69,5 +70,7 @@ class ConsoneoEcoffreFortExtension extends Extension
 
 		// Add the service to the container
 		$container->setDefinition($name, $coffre);
+
+		return new Reference($name);
 	}
 }
