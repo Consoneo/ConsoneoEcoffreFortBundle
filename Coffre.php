@@ -108,14 +108,15 @@ class Coffre
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($c, CURLOPT_POSTFIELDS, $post);
 		$response = curl_exec($c);
-		curl_close($c);
 
-		if ($response) {
-			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
-			return $response;
+		if (curl_error($c)) {
+			$response = curl_error($c);
 		} else {
-			return curl_error($c);
+			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
 		}
+
+		curl_close($c);
+		return $response;
 	}
 
 	/**
@@ -136,14 +137,15 @@ class Coffre
 		curl_setopt($c, CURLOPT_URL, $url);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($c);
-		curl_close($c);
 
-		if ($response) {
-			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
-			return $response;
+		if (curl_error($c)) {
+			$response = curl_error($c);
 		} else {
-			return curl_error($c);
+			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
 		}
+
+		curl_close($c);
+		return $response;
 	}
 
 	/**
@@ -164,14 +166,15 @@ class Coffre
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 
 		$response = curl_exec($c);
-		curl_close($c);
 
-		if ($response) {
-			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
-			return $response;
+		if (curl_error($c)) {
+			$response = curl_error($c);
 		} else {
-			return curl_error($c);
+			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
 		}
+
+		curl_close($c);
+		return $response;
 	}
 
 	/**
@@ -192,14 +195,15 @@ class Coffre
 		curl_setopt($c, CURLOPT_URL, $url);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($c);
-		curl_close($c);
 
-		if ($response) {
-			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
-			return $response;
+		if (curl_error($c)) {
+			$response = curl_error($c);
 		} else {
-			return curl_error($c);
-		}
+			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
+		} 
+
+		curl_close($c);
+		return $response;
 	}
 
 	/**

@@ -38,9 +38,15 @@ class ConsoneoEcoffreFortExtension extends Extension
 	 */
 	private function addCoffres(array $config, ContainerBuilder $container)
 	{
-		foreach ($config as $coffre => $coffreConfig) {
-			$this->newCoffre($coffre, $coffreConfig, $container);
+		$map = array();
+
+		foreach ($config as $name => $coffreConfig) {
+			$name = sprintf('consoneo.ecoffrefort.%s', $name);
+			$map[$name] = $this->newCoffre($name, $coffreConfig, $container);
 		}
+
+		$container->getDefinition('ecoffrefort.coffre_map')
+			->replaceArgument(0, $map);
 	}
 
 	/**
@@ -62,7 +68,6 @@ class ConsoneoEcoffreFortExtension extends Extension
 		$coffre->addMethodCall('setDoctrine', [new Reference('doctrine')]);
 
 		// Add the service to the container
-		$serviceName = sprintf('consoneo.ecoffrefort.%s', $name);
-		$container->setDefinition($serviceName, $coffre);
+		$container->setDefinition($name, $coffre);
 	}
 }
