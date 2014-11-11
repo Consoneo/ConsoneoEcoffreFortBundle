@@ -26,12 +26,12 @@ class LogQueryAdmin extends Admin
 	{
 		$showMapper
 			->with('ECoffreFort LogQuery')
-				->add('createdDateTime', null, ['label'    =>  'Date de création'])
-				->add('safeId', null, ['label'  =>  'Nom du Coffre'])
-				->add('queryType', null, ['label'   =>  'Type de requête'])
-				->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
-				->add('returnCode', null, ['label'  =>  'Code de retour'])
-				->add('getLabelReturnCode', null, ['label'  =>  'Message de retour'])
+			->add('createdDateTime', null, ['label'    =>  'Date de création'])
+			->add('safeId', null, ['label'  =>  'Nom du Coffre'])
+			->add('queryType', null, ['label'   =>  'Type de requête'])
+			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
+			->add('returnCode', null, ['label'  =>  'Code de retour'])
+			->add('getLabelReturnCode', null, ['label'  =>  'Message de retour'])
 			->end()
 		;
 	}

@@ -115,7 +115,6 @@ class Coffre
 			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
 		}
 
-		curl_close($c);
 		return $response;
 	}
 
@@ -144,7 +143,6 @@ class Coffre
 			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
 		}
 
-		curl_close($c);
 		return $response;
 	}
 
@@ -173,7 +171,6 @@ class Coffre
 			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
 		}
 
-		curl_close($c);
 		return $response;
 	}
 
@@ -202,7 +199,6 @@ class Coffre
 			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
 		} 
 
-		curl_close($c);
 		return $response;
 	}
 

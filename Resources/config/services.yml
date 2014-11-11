@@ -17,6 +17,6 @@ services:
          arguments:
              - ~
              - Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire
-             - ~
+             - ConsoneoEcoffreFortBundle:CRUD
          tags:
              - { name: sonata.admin, manager_type: orm, label: Annuaire }

@@ -26,12 +26,13 @@ class AnnuaireAdmin extends Admin
 	{
 		$showMapper
 			->with('ECoffreFort Annuaire')
-				->add('createdDateTime', null, ['label'    =>  'Date de création'])
-				->add('safeId', null, ['label'  =>  'Nom du Coffre'])
-				->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
-				->add('docName', null, ['label'   =>  'Nom du document'])
-				->add('targetDir', null, ['label' =>  'Dossier de stockage'])
-				->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
+			->add('createdDateTime', null, ['label'    =>  'Date de création'])
+			->add('safeId', null, ['label'  =>  'Nom du Coffre'])
+			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
+			->add('docName', null, ['label'   =>  'Nom du document'])
+			->add('targetDir', null, ['label' =>  'Dossier de stockage'])
+			->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
+			->add('')
 			->end()
 		;
 	}
@@ -48,7 +49,9 @@ class AnnuaireAdmin extends Admin
 
 			->add('_action', 'actions', array(
 				'actions' => array(
-					'show' => array(),
+					'pdfView' => array(
+						'template'  => 'ConsoneoEcoffreFortBundle:Sonata:list__action_pdf_view.html.twig',
+					),
 				)
 			))
 		;
@@ -66,12 +69,13 @@ class AnnuaireAdmin extends Admin
 			->add('docName', null, ['label'   =>  'Nom du document'])
 			->add('targetDir', null, ['label' =>  'Dossier de stockage'])
 			->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
-        ;
+		;
 	}
 
 	protected function configureRoutes(RouteCollection $collection)
 	{
 		$collection
+			->add('pdfView',  $this->getRouterIdParameter().'/pdfView')
 			->remove('create')
 			->remove('edit')
 			->remove('delete')
