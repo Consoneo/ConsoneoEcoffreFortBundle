@@ -36,6 +36,8 @@ class CoffreMap implements \IteratorAggregate
 	 */
 	public function get($name)
 	{
+		$name = str_replace('-', '_',$name);
+
 		if (!isset($this->map[$name])) {
 			throw new \InvalidArgumentException(sprintf('No coffre register for name "%s"', $name));
 		}

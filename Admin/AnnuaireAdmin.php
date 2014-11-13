@@ -6,7 +6,6 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\AdminBundle\Show\ShowMapper;
 
 class AnnuaireAdmin extends Admin
 {
@@ -20,22 +19,6 @@ class AnnuaireAdmin extends Admin
 		'_sort_order' => 'DESC',
 		'_sort_by' => 'createdDateTime'
 	);
-
-
-	protected function configureShowFields(ShowMapper $showMapper)
-	{
-		$showMapper
-			->with('ECoffreFort Annuaire')
-			->add('createdDateTime', null, ['label'    =>  'Date de création'])
-			->add('safeId', null, ['label'  =>  'Nom du Coffre'])
-			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
-			->add('docName', null, ['label'   =>  'Nom du document'])
-			->add('targetDir', null, ['label' =>  'Dossier de stockage'])
-			->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
-			->add('')
-			->end()
-		;
-	}
 
 	protected function configureListFields(ListMapper $listMapper)
 	{
@@ -76,6 +59,7 @@ class AnnuaireAdmin extends Admin
 	{
 		$collection
 			->add('pdfView',  $this->getRouterIdParameter().'/pdfView')
+			->remove('show')
 			->remove('create')
 			->remove('edit')
 			->remove('delete')
