@@ -25,6 +25,6 @@ class CRUDController extends Controller
 
 		$this->container->get('doctrine')->getManager()->flush();
 
-		return new Response($content, 200, ['Content-type' =>  'application/pdf']);;
+		return new Response($content, 200, ['Content-type' =>  'application/pdf']);
 	}
 }
