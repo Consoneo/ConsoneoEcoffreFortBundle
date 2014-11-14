@@ -5,7 +5,6 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 use Consoneo\Bundle\EcoffreFortBundle\Coffre;
 use Mockery as m;
 use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Yaml;
 
 class CoffreTest extends \PHPUnit_Framework_TestCase
 {

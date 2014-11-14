@@ -204,6 +204,14 @@ class Coffre
 		return $response;
 	}
 
+	/**
+	 * API de déplacement d'un document
+	 *
+	 * @param $iua
+	 * @param $target
+	 * @param string $charset
+	 * @return mixed|string
+	 */
 	public function moveFile($iua, $target, $charset = self::CHARSET)
 	{
 		$yy     = rand(0,99);
