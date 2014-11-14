@@ -9,6 +9,8 @@
 		<strong><span class="label label-important">{{ value | raw}}</span></strong>
 	{% elseif value is constant('Consoneo\\Bundle\\EcoffreFortBundle\\Entity\\LogQuery::QUERY_CERT')%}
 		<strong><span class="label label-primary">{{ value | raw}}</span></strong>
+	{% elseif value is constant('Consoneo\\Bundle\\EcoffreFortBundle\\Entity\\LogQuery::QUERY_MOVE')%}
+		<strong><span class="label label-inverse">{{ value | raw}}</span></strong>
 	{% else %}
 		<strong>{{ value | raw}}</strong>
 	{% endif %}

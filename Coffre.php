@@ -5,6 +5,7 @@ namespace Consoneo\Bundle\EcoffreFortBundle;
 use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\MoveEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
 use Consoneo\Bundle\EcoffreFortBundle\EventSubscriber\CoffreSubscriber;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -16,6 +17,7 @@ class Coffre
 	const GET_URI   =   'https://www.e-coffrefort.fr/httpapi/getfile.php';
 	const DEL_URI   =   'https://www.e-coffrefort.fr/httpapi/delfile.php';
 	const CERT_URI  =   'https://www.e-coffrefort.fr/httpapi/getfilecert.php';
+	const MOVE_URI  =   'https://www.e-coffrefort.fr/httpapi/mvfile.php';
 
 	const EXTENDED  =   'Y';
 	const CHARSET   =   'UTF8';
@@ -69,7 +71,7 @@ class Coffre
 	{
 		$this->doctrine     = $doctrine;
 		$this->dispatcher   = new EventDispatcher();
-		$this->dispatcher->addSubscriber(new CoffreSubscriber($this->doctrine));
+		$this->dispatcher->addSubscriber(new CoffreSubscriber($this->doctrine->getManager()));
 	}
 
 	/**
@@ -198,6 +200,26 @@ class Coffre
 		} else {
 			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
 		} 
+
+		return $response;
+	}
+
+	public function moveFile($iua, $target, $charset = self::CHARSET)
+	{
+		$yy     = rand(0,99);
+		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
+			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
+		$url    = sprintf('%s?P=%s&DEST=%s&CHARSET=%s', self::MOVE_URI, $key, $target, $charset);
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, $url);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($c);
+
+		if (curl_error($c)) {
+			$response = curl_error($c);
+		} else {
+			$this->dispatcher->dispatch(MoveEvent::NAME, new MoveEvent($this->safe_id, $iua, $response, $target));
+		}
 
 		return $response;
 	}

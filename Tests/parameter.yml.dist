@@ -1,0 +1,5 @@
+coffre:
+  - "email"
+  - "safeId"
+  - "partId"
+  - "password"

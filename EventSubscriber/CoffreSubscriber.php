@@ -7,22 +7,23 @@ use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
 use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\MoveEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\QueryEventInterface;
-use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CoffreSubscriber implements EventSubscriberInterface {
 
 	/**
-	 * @var Registry
+	 * @var EntityManager
 	 */
-	private $doctrine;
+	private $em;
 
-	public function __construct(Registry $doctrine)
+	public function __construct(ObjectManager $em)
 	{
-		$this->doctrine =   $doctrine;
+		$this->em =   $em;
 	}
 
 	public static function getSubscribedEvents()
@@ -38,6 +39,10 @@ class CoffreSubscriber implements EventSubscriberInterface {
 				['delAnnuaire']
 			],
 			CertEvent::NAME =>  'logQuery',
+			MoveEvent::NAME =>  [
+				['logQuery'],
+				['updateAnnuaire'],
+			],
 		);
 	}
 
@@ -53,7 +58,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 			->setReturnCode($queryEvent->getCodeRetour())
 		;
 
-		$this->getManager()->persist($logQuery);
+		$this->em->persist($logQuery);
 	}
 
 	/**
@@ -69,7 +74,25 @@ class CoffreSubscriber implements EventSubscriberInterface {
 			->setMd5DocName($putEvent->getMd5DocName())
 		;
 
-		$this->getManager()->persist($putAnnuaire);
+		$this->em->persist($putAnnuaire);
+	}
+
+	/**
+	 * @param MoveEvent $moveEvent
+	 */
+	public function updateAnnuaire(MoveEvent $moveEvent)
+	{
+		$annuaire = $this->em->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
+			->findOneBy([
+				'safeId'    =>  $moveEvent->getSafeId(),
+				'iua'       =>  $moveEvent->getIua(),
+			]);
+
+		if ($annuaire) {
+			/** @var $annuaire Annuaire */
+			$annuaire->setTargetDir($moveEvent->getTargetDir());
+			$this->em->persist($annuaire);
+		}
 	}
 
 	/**
@@ -77,22 +100,14 @@ class CoffreSubscriber implements EventSubscriberInterface {
 	 */
 	public function delAnnuaire(DelEvent $delEvent)
 	{
-		$archive = $this->getManager()->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
+		$annuaire = $this->em->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
 			->findOneBy([
 				'safeId'    =>  $delEvent->getSafeId(),
 				'iua'       =>  $delEvent->getIua(),
 			]);
 
-		if ($archive) {
-			$this->getManager()->remove($archive);
+		if ($annuaire) {
+			$this->em->remove($annuaire);
 		}
-	}
-
-	/**
-	 * @return EntityManager
-	 */
-	private function getManager()
-	{
-		return $this->doctrine->getManager();
 	}
 }

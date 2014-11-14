@@ -18,6 +18,7 @@ class LogQuery
 	const QUERY_GET     =   'GET';
 	const QUERY_DEL     =   'DEL';
     const QUERY_CERT    =   'CERTIFICAT';
+    const QUERY_MOVE    =   'MOVE';
 
 	private $labelReturnCode = [
 		self::QUERY_PUT =>  [
@@ -71,7 +72,23 @@ class LogQuery
             '-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
             '-10'   =>  'Erreur interne',
             '-11'   =>  'Erreur interne HASH',
-        ]
+        ],
+        self::QUERY_MOVE    =>  [
+            '0'     =>  'Opération réalisée avec succès',
+            '-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+            '-2'    =>  'PART_ID manquant',
+            '-3'    =>  'IUA manquant',
+            '-4'    =>  '(non utilisé)',
+            '-5'    =>  'PART_ID incorrect',
+            '-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
+            '-7'    =>  'Accès non réalisé en SSL',
+            '-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
+            '-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
+            '-10'   =>  'Erreur interne',
+            '-11'   =>  'DEST Manquant',
+            '-12'   =>  'Erreur impossible de déplacer le fichier',
+            '-99'   =>  'Service fermé',
+        ],
 	];
 
 	/**
@@ -234,6 +251,9 @@ class LogQuery
         return $this->returnCode;
     }
 
+    /**
+     * @return string
+     */
 	public function getLabelReturnCode()
 	{
 		return $this->labelReturnCode[$this->getQueryType()][$this->getReturnCode()];
