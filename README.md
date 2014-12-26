@@ -1,6 +1,8 @@
 ConsoneoECoffreFortBundle
 =========================
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/6b4a0b60-3466-4041-8a68-5df0388428b8/mini.png)](https://insight.sensiolabs.com/projects/6b4a0b60-3466-4041-8a68-5df0388428b8)
+
 Installation
 -------------------------
 
