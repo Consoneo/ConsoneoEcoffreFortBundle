@@ -1,6 +1,7 @@
 {
   "name": "consoneo/ecoffre-fort-bundle",
   "description": "Bundle for mapping HTTP API e-coffre-fort.fr",
+  "license": "MIT",
   "authors": [
     {
       "name": "gabriel",
@@ -16,9 +17,9 @@
     "doctrine/orm": "2.4.4",
     "gedmo/doctrine-extensions": ">=2.3.9",
 
-    "sonata-project/doctrine-orm-admin-bundle": "dev-master",
-    "sonata-project/admin-bundle": "dev-master",
-    "sonata-project/core-bundle": "dev-master"
+    "sonata-project/doctrine-orm-admin-bundle": "~2.3",
+    "sonata-project/admin-bundle": "~2.3",
+    "sonata-project/core-bundle": "~2.3"
   },
   "require-dev": {
     "phpunit/phpunit": "4.0.*",
