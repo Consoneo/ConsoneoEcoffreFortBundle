@@ -17,8 +17,8 @@ class LogQuery
 	const QUERY_PUT     =   'PUT';
 	const QUERY_GET     =   'GET';
 	const QUERY_DEL     =   'DEL';
-    const QUERY_CERT    =   'CERTIFICAT';
-    const QUERY_MOVE    =   'MOVE';
+    	const QUERY_CERT    =   'CERTIFICAT';
+    	const QUERY_MOVE    =   'MOVE';
 
 	private $labelReturnCode = [
 		self::QUERY_PUT =>  [
@@ -117,7 +117,7 @@ class LogQuery
 	private $queryType;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	private $iua;
 
