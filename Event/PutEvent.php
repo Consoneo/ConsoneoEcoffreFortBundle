@@ -27,7 +27,11 @@ class PutEvent extends QueryEvent implements QueryEventInterface
 		$this->docName      =   $docName;
 		$this->targetDir    =   $targetDir;
 		$this->safeId       =   $safeId;
-		list($this->codeRetour, $this->iua, $this->md5DocName) = explode('|', $retour);
+		if (strpos($retour, '|')) {
+			list($this->codeRetour, $this->iua, $this->md5DocName) = explode('|', $retour);
+		} else {
+			$this->codeRetour = $retour;
+		}
 	}
 
 	/**
