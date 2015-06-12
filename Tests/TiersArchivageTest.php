@@ -90,7 +90,7 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 		$response = explode('|', $response);
 
 		$this->assertEquals(0, $response[0]);
-		$this->assertEquals(strtoupper(md5_file(realpath($file))), $response[2]);
+		$this->assertEquals(hash('sha256', file_get_contents($file)), $response[3]);
 
 		@$this->tierArchivage->removeFile($response[1]);
 	}
