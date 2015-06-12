@@ -22,7 +22,7 @@ class MoveEvent extends QueryEvent implements QueryEventInterface
 	public function __construct($safeId, $iua, $codeRetour, $targetDir)
 	{
 		$this->targetDir    =   $targetDir;
-		parent::__construct($safeId, $iua, $codeRetour);
+		parent::__construct(LogQuery::COFFRE, null, $safeId, $iua, $codeRetour);
 	}
 
 	/**

@@ -56,6 +56,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 			->setSafeId($queryEvent->getSafeId())
 			->setQueryType($queryEvent->getQueryType())
 			->setReturnCode($queryEvent->getCodeRetour())
+			->setServiceType($queryEvent->getServiceType())
 		;
 
 		$this->em->persist($logQuery);
@@ -72,6 +73,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 			->setTargetDir($putEvent->getTargetDir())
 			->setDocName($putEvent->getDocName())
 			->setMd5DocName($putEvent->getMd5DocName())
+			->setServiceType($putEvent->getServiceType())
 		;
 
 		$this->em->persist($putAnnuaire);
@@ -102,8 +104,9 @@ class CoffreSubscriber implements EventSubscriberInterface {
 	{
 		$annuaire = $this->em->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
 			->findOneBy([
-				'safeId'    =>  $delEvent->getSafeId(),
-				'iua'       =>  $delEvent->getIua(),
+				'safeId'        =>  $delEvent->getSafeId(),
+				'iua'           =>  $delEvent->getIua(),
+				'serviceType'   =>  $delEvent->getServiceType(),
 			]);
 
 		if ($annuaire) {

@@ -22,7 +22,9 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('consoneo_ecoffre_fort');
 
 	    $rootNode
-		    ->append($this->addCoffresSection());
+		    ->append($this->addCoffresSection())
+		    ->append($this->addTiersArchivageSection())
+	    ;
 
         return $treeBuilder;
     }
@@ -46,6 +48,32 @@ class Configuration implements ConfigurationInterface
 					->scalarNode('safe_id')->isRequired()->end()
 					->scalarNode('part_id')->isRequired()->end()
 					->scalarNode('password')->isRequired()->end()
+					->end()
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
+	/**
+	 * Configure the "consoneo_ecoffre_fort.tiers_archivages" section
+	 *
+	 * @return ArrayNodeDefinition
+	 */
+	private function addTiersArchivageSection()
+	{
+		$tree = new TreeBuilder();
+		$node = $tree->root('tiers_archivages');
+		$node
+			->requiresAtLeastOneElement()
+			->useAttributeAsKey('name')
+			->prototype('array')
+				->children()
+					->scalarNode('email_origin')->isRequired()->end()
+					->scalarNode('safe_id')->isRequired()->end()
+					->scalarNode('user_login')->isRequired()->end()
+					->scalarNode('user_password')->isRequired()->end()
 					->end()
 				->end()
 			->end()

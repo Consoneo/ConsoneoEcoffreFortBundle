@@ -28,6 +28,10 @@ class ConsoneoEcoffreFortExtension extends Extension
 	    if (isset($config['coffres'])) {
 		    $this->addCoffres($config['coffres'], $container);
 	    }
+
+	    if (isset($config['tiers_archivages'])) {
+		    $this->addTiersArchivage($config['tiers_archivages'], $container);
+	    }
     }
 
 	/**
@@ -41,11 +45,30 @@ class ConsoneoEcoffreFortExtension extends Extension
 		$map = array();
 
 		foreach ($config as $name => $coffreConfig) {
-			$name = sprintf('consoneo.ecoffrefort.%s', $name);
+			$name = sprintf('consoneo.ecoffrefort.coffre.%s', $name);
 			$map[$name] = $this->newCoffre($name, $coffreConfig, $container);
 		}
 
 		$container->getDefinition('ecoffrefort.coffre_map')
+			->replaceArgument(0, $map);
+	}
+
+	/**
+	 * Adds Tiers Archivage to the service container
+	 *
+	 * @param array $config
+	 * @param ContainerBuilder $container
+	 */
+	private function addTiersArchivage(array $config, ContainerBuilder $container)
+	{
+		$map = array();
+
+		foreach ($config as $name => $tiersArchivageConfig) {
+			$name = sprintf('consoneo.ecoffrefort.tiers.archivage.%s', $name);
+			$map[$name] = $this->newTiersArchivage($name, $tiersArchivageConfig, $container);
+		}
+
+		$container->getDefinition('ecoffrefort.tiers_archivage_map')
 			->replaceArgument(0, $map);
 	}
 
@@ -66,10 +89,43 @@ class ConsoneoEcoffreFortExtension extends Extension
 			$config['password'],
 		]);
 
+		if (array_key_exists('debug', $config)) {
+			$coffre->addMethodCall('setLogger', [new Reference('logger')]);
+		}
+
 		$coffre->addMethodCall('setDoctrine', [new Reference('doctrine')]);
 
 		// Add the service to the container
 		$container->setDefinition($name, $coffre);
+
+		return new Reference($name);
+	}
+
+	/**
+	 * Creates a new ECoffreFort definition
+	 *
+	 * @param $name
+	 * @param array $config
+	 * @param ContainerBuilder $container
+	 * @return Reference
+	 */
+	private function newTiersArchivage($name, array $config, ContainerBuilder $container)
+	{
+		$tiersArchivage = new Definition('Consoneo\Bundle\EcoffreFortBundle\TiersArchivage', [
+			$config['safe_room'],
+			$config['safe_id'],
+			$config['user_login'],
+			$config['user_password'],
+		]);
+
+		if (array_key_exists('debug', $config)) {
+			$tiersArchivage->addMethodCall('setLogger', [new Reference('logger')]);
+		}
+
+		$tiersArchivage->addMethodCall('setDoctrine', [new Reference('doctrine')]);
+
+		// Add the service to the container
+		$container->setDefinition($name, $tiersArchivage);
 
 		return new Reference($name);
 	}

@@ -8,6 +8,16 @@ abstract class QueryEvent extends Event
 	/**
 	 * @var String
 	 */
+	protected $serviceType;
+
+	/**
+	 * @var String
+	 */
+	protected $safeRoom;
+
+	/**
+	 * @var String
+	 */
 	protected $safeId;
 
 	/**
@@ -22,14 +32,18 @@ abstract class QueryEvent extends Event
 
 
 	/**
+	 * @param $serviceType
+	 * @param null $safeRoom
 	 * @param $safeId
 	 * @param $iua
 	 * @param $codeRetour
 	 */
-	public function __construct($safeId, $iua, $codeRetour)
+	public function __construct($serviceType, $safeRoom = null, $safeId, $iua, $codeRetour)
 	{
 		$this->safeId       =   $safeId;
 		$this->iua          =   $iua;
+		$this->safeRoom     =   $safeRoom;
+		$this->serviceType  =   $serviceType;
 		$this->setCodeRetour($codeRetour);
 	}
 
@@ -69,4 +83,21 @@ abstract class QueryEvent extends Event
 		$this->codeRetour = $codeRetour;
 		return $this;
 	}
+
+	/**
+	 * @return String
+	 */
+	public function getServiceType()
+	{
+		return $this->serviceType;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getSafeRoom()
+	{
+		return $this->safeRoom;
+	}
+
 }

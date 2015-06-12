@@ -32,6 +32,7 @@ class LogQueryAdmin extends Admin
 			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
 			->add('returnCode', null, ['label'  =>  'Code de retour'])
 			->add('getLabelReturnCode', null, ['label'  =>  'Message de retour'])
+			->add('serviceType', null, ['label' =>  'type de service utilisé (coffre standart ou tiers archivage)'])
 			->end()
 		;
 	}
@@ -47,6 +48,7 @@ class LogQueryAdmin extends Admin
 			])
 			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
 			->add('getLabelReturnCode', null, ['label'  =>  'Message de retour'])
+			->add('serviceType', null, ['label' =>  'type de service utilisé (coffre standart ou tiers archivage)'])
 
 			->add('_action', 'actions', array(
 				'actions' => array(
@@ -64,6 +66,7 @@ class LogQueryAdmin extends Admin
 				'label'         =>  'Date de création',
 			])
 			->add('safeId', null, ['label'  =>  'Nom du Coffre'])
+			->add('serviceType', null, ['label' =>  'type de service utilisé (coffre standart ou tiers archivage)'])
 			->add('queryType', 'doctrine_orm_choice', ['label'   =>  'Type de requête'], 'choice', [
 				'choices' =>   [LogQuery::QUERY_PUT, LogQuery::QUERY_GET, LogQuery::QUERY_DEL]])
 			->add('iua', null, ['label' =>  'Identifiant Unique de l\'Archive'])
