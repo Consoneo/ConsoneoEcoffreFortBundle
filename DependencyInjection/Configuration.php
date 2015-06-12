@@ -70,7 +70,7 @@ class Configuration implements ConfigurationInterface
 			->useAttributeAsKey('name')
 			->prototype('array')
 				->children()
-					->scalarNode('email_origin')->isRequired()->end()
+					->scalarNode('safe_room')->isRequired()->end()
 					->scalarNode('safe_id')->isRequired()->end()
 					->scalarNode('user_login')->isRequired()->end()
 					->scalarNode('user_password')->isRequired()->end()
