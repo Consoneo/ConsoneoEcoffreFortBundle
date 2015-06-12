@@ -22,16 +22,44 @@ class PutEvent extends QueryEvent implements QueryEventInterface
 	 */
 	private $md5DocName;
 
-	public function __construct($docName, $safeId, $targetDir, $retour)
+	/**
+	 * @var String
+	 */
+	private $md5Type;
+
+	/**
+	 * @var String
+	 */
+	private $fileSize;
+
+	/**
+	 * @var String
+	 */
+	private $fileDate;
+
+	/**
+	 * @var String
+	 */
+	private $fileTime;
+
+
+	public function __construct($serviceType, $safeRoom = null, $docName, $safeId, $targetDir = null, $retour)
 	{
+		$this->serviceType  =   $serviceType;
 		$this->docName      =   $docName;
 		$this->targetDir    =   $targetDir;
 		$this->safeId       =   $safeId;
+		$this->safeRoom     =   $safeRoom;
 		if (strpos($retour, '|')) {
-			list($this->codeRetour, $this->iua, $this->md5DocName) = explode('|', $retour);
+			if ($this->serviceType == LogQuery::TA) {
+				list($this->codeRetour, $this->iua, $this->docName, $this->md5DocName, $this->md5Type, $this->fileSize, $this->fileDate, $this->fileTime) = explode('|', $retour);
+			} else {
+				list($this->codeRetour, $this->iua, $this->md5DocName) = explode('|', $retour);
+			}
 		} else {
 			$this->codeRetour = $retour;
 		}
+
 	}
 
 	/**

@@ -29,6 +29,7 @@ class AnnuaireAdmin extends Admin
 			->add('docName', null, ['label'   =>  'Nom du document'])
 			->add('targetDir', null, ['label' =>  'Dossier de stockage'])
 			->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
+			->add('serviceType', null, ['label'  =>  'type de service utilisé (coffre standart ou tiers archivage)'])
 
 			->add('_action', 'actions', array(
 				'actions' => array(
@@ -52,6 +53,7 @@ class AnnuaireAdmin extends Admin
 			->add('docName', null, ['label'   =>  'Nom du document'])
 			->add('targetDir', null, ['label' =>  'Dossier de stockage'])
 			->add('md5DocName', null, ['label'  =>  'md5 du fichier'])
+			->add('serviceType', null, ['label'  =>  'type de service utilisé (coffre standart ou tiers archivage)'])
 		;
 	}
 

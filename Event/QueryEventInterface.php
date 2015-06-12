@@ -23,4 +23,9 @@ interface QueryEventInterface
 	 * @return String
 	 */
 	public function getIua();
+
+	/**
+	 * @return String
+	 */
+	public function getServiceType();
 }

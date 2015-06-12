@@ -54,6 +54,11 @@ class Annuaire
 	private $md5DocName;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $serviceType;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -200,4 +205,23 @@ class Annuaire
 	{
 		return $this->safeId;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getServiceType()
+	{
+		return $this->serviceType;
+	}
+
+	/**
+	 * @param string $serviceType
+	 * @return Annuaire
+	 */
+	public function setServiceType($serviceType)
+	{
+		$this->serviceType = $serviceType;
+		return $this;
+	}
+
 }

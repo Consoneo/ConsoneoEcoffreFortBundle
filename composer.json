@@ -19,7 +19,9 @@
 
     "sonata-project/doctrine-orm-admin-bundle": "~2.3",
     "sonata-project/admin-bundle": "~2.3",
-    "sonata-project/core-bundle": "~2.3"
+    "sonata-project/core-bundle": "~2.3",
+
+    "monolog/monolog": ">=1.10.0"
   },
   "require-dev": {
     "phpunit/phpunit": "4.0.*",

@@ -2,16 +2,16 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 
-use Consoneo\Bundle\EcoffreFortBundle\Coffre;
+use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
 use Mockery as m;
 use Symfony\Component\Yaml\Parser;
 
-class CoffreTest extends \PHPUnit_Framework_TestCase
+class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var Coffre
+	 * @var TiersArchivage
 	 */
-	private $coffre;
+	private $tierArchivage;
 
 
 	protected  function setUp()
@@ -22,11 +22,11 @@ class CoffreTest extends \PHPUnit_Framework_TestCase
 		}
 
 		$yaml = new Parser();
-		list($email, $safeId, $partId, $password) =  $yaml->parse(file_get_contents(__DIR__ . '/parameter.yml'))['coffre'];
+		list($safeRoom, $safeId, $userLogin, $userPassword) =  $yaml->parse(file_get_contents(__DIR__ . '/parameter.yml'))['tiers-archivage'];
 
-		$this->coffre =  new Coffre($email, $safeId, $partId, $password);
-		$this->coffre->setDoctrine($this->getMockDoctrine());
-		$this->coffre->setLogger($this->getMockLogger());
+		$this->tierArchivage =  new TiersArchivage($safeRoom, $safeId, $userLogin, $userPassword);
+		$this->tierArchivage->setDoctrine($this->getMockDoctrine());
+		$this->tierArchivage->setLogger($this->getMockLogger());
 	}
 
 
@@ -85,68 +85,38 @@ class CoffreTest extends \PHPUnit_Framework_TestCase
 	{
 		$file = __DIR__ . '/test.txt';
 
-		$response = $this->coffre->putFile('test.txt', 'test', $file, 'commentaire');
+		$response = $this->tierArchivage->putFile('test.txt', $file);
 
 		$response = explode('|', $response);
 
 		$this->assertEquals(0, $response[0]);
 		$this->assertEquals(strtoupper(md5_file(realpath($file))), $response[2]);
 
-		@$this->coffre->removeFile($response[1]);
+		@$this->tierArchivage->removeFile($response[1]);
 	}
 
 	public function testGetFile()
 	{
 		$file = __DIR__ . '/test.txt';
 
-		$response = $this->coffre->putFile('test.txt', 'test', $file, 'commentaire');
+		$response = $this->tierArchivage->putFile('test.txt', $file);
 
 		$response = explode('|', $response);
 
-		$this->assertEquals('ceci est un document de test !', $this->coffre->getFile($response[1]));
+		$this->assertEquals('ceci est un document de test !', $this->tierArchivage->getFile($response[1]));
 
-		@$this->coffre->removeFile($response[1]);
+		@$this->tierArchivage->removeFile($response[1]);
 	}
 
 	public function testDelFile()
 	{
 		$file = __DIR__ . '/test.txt';
 
-		$response = $this->coffre->putFile('testRemove.txt', 'test', $file, 'commentaire');
+		$response = $this->tierArchivage->putFile('testRemove.txt', $file);
 		$response = explode('|', $response);
 
-		$remove = $this->coffre->removeFile($response[1]);
+		$remove = $this->tierArchivage->removeFile($response[1]);
 
 		$this->assertEquals(0, $remove);
-	}
-
-	public function testCert()
-	{
-		$file = __DIR__ . '/test.txt';
-
-		$fileCert = __DIR__ . '/test.pdf';
-
-		$response = $this->coffre->putFile('test.txt', 'test', $file, 'commentaire');
-
-		$response = explode('|', $response);
-
-		file_put_contents($fileCert, $this->coffre->getCert($response[1]));
-
-
-
-		@$this->coffre->removeFile($response[1]);
-		//@unlink($fileCert);
-	}
-
-	public function testMoveFile()
-	{
-		$file = __DIR__ . '/test.txt';
-		$response = $this->coffre->putFile('test.txt', 'test/origin', $file);
-		$response = explode('|', $response);
-
-		$responseMove = $this->coffre->moveFile($response[1], 'test/target');
-		$this->assertEquals(0, $responseMove);
-
-		@$this->coffre->removeFile($response[1]);
 	}
 }

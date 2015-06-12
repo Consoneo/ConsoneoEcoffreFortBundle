@@ -3,6 +3,12 @@ services:
          class: Consoneo\Bundle\EcoffreFortBundle\CoffreMap
          arguments:
              - ~
+
+    ecoffrefort.tiers_archivage_map:
+         class: Consoneo\Bundle\EcoffreFortBundle\TiersArchivageMap
+         arguments:
+             - ~
+
     sonata.admin.ecoffrefort.logquery:
          class: Consoneo\Bundle\EcoffreFortBundle\Admin\LogQueryAdmin
          arguments:

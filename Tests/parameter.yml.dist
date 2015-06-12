@@ -3,3 +3,9 @@ coffre:
   - "safeId"
   - "partId"
   - "password"
+
+tiers-archivage:
+  - "safeRoom"
+  - "safeId"
+  - "userLogin"
+  - "userPassword"

@@ -2,16 +2,14 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle;
 
+use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
 use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\MoveEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
-use Consoneo\Bundle\EcoffreFortBundle\EventSubscriber\CoffreSubscriber;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
-class Coffre
+class Coffre extends ECoffreFort
 {
 	const PUT_URI   =   'https://www.e-coffrefort.fr/httpapi/loadsafe.php';
 	const GET_URI   =   'https://www.e-coffrefort.fr/httpapi/getfile.php';
@@ -24,24 +22,9 @@ class Coffre
 	const HDAU      =   'N';
 
 	/**
-	 * @var Registry
-	 */
-	private $doctrine;
-
-	/**
-	 * @var EventDispatcher
-	 */
-	private $dispatcher;
-
-	/**
 	 * @var String
 	 */
 	private $email_origin;
-
-	/**
-	 * @var String
-	 */
-	private $safe_id;
 
 	/**
 	 * @var String
@@ -65,13 +48,6 @@ class Coffre
 		$this->safe_id      =   $safe_id;
 		$this->part_id      =   $part_id;
 		$this->password     =   $password;
-	}
-
-	public function setDoctrine(Registry $doctrine)
-	{
-		$this->doctrine     = $doctrine;
-		$this->dispatcher   = new EventDispatcher();
-		$this->dispatcher->addSubscriber(new CoffreSubscriber($this->doctrine->getManager()));
 	}
 
 	/**
@@ -114,7 +90,7 @@ class Coffre
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent($docName, $this->safe_id, $targetDir, $response));
+			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent(LogQuery::COFFRE, null, $docName, $this->safe_id, $targetDir, $response));
 		}
 
 		return $response;
@@ -129,10 +105,10 @@ class Coffre
 	public function getFile($iua)
 	{
 		$yy     = rand(0,99);
+
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s&MODE=RAW', self::GET_URI, $key);
-
 
 		$c = curl_init();
 		curl_setopt($c, CURLOPT_URL, $url);
@@ -142,7 +118,7 @@ class Coffre
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent($this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
 		}
 
 		return $response;
@@ -170,7 +146,7 @@ class Coffre
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent($this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
 		}
 
 		return $response;
@@ -189,7 +165,6 @@ class Coffre
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s&MODE=RAW', self::CERT_URI, $key);
 
-
 		$c = curl_init();
 		curl_setopt($c, CURLOPT_URL, $url);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -198,8 +173,8 @@ class Coffre
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent($this->safe_id, $iua, $response));
-		} 
+			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
+		}
 
 		return $response;
 	}
@@ -218,6 +193,7 @@ class Coffre
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s&DEST=%s&CHARSET=%s', self::MOVE_URI, $key, $target, $charset);
+
 		$c = curl_init();
 		curl_setopt($c, CURLOPT_URL, $url);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -230,13 +206,5 @@ class Coffre
 		}
 
 		return $response;
-	}
-
-	/**
-	 * @return String
-	 */
-	public function getSafeId()
-	{
-		return $this->safe_id;
 	}
 }
