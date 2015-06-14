@@ -161,6 +161,7 @@ class TiersArchivage extends ECoffreFort
 
 	/**
 	 * API de Listage des archives
+	 * @param null $rtnType
 	 * @param null $fileName
 	 * @param null $fileHash
 	 * @param null $fileSizeMin
@@ -170,14 +171,14 @@ class TiersArchivage extends ECoffreFort
 	 * @param null $maxList
 	 * @return mixed|string
 	 */
-	public function listFiles($fileName = null, $fileHash = null, $fileSizeMin = null, $fileSizeMax = null, $filesTampBeg = null, $filesTampEnd = null, $maxList = null)
+	public function listFiles($rtnType = null, $fileName = null, $fileHash = null, $fileSizeMin = null, $fileSizeMax = null, $filesTampBeg = null, $filesTampEnd = null, $maxList = null)
 	{
 		$post = [
 			'SAFE_ROOM'         =>  $this->safe_room,
 			'SAFE_ID'           =>  $this->safe_id,
 			'USER_LOGIN'        =>  $this->user_login,
 			'USER_PASSWD'       =>  $this->user_password,
-			'RTNTYPE'           =>  self::RTNTYPE_TXT,
+			'RTNTYPE'           =>  $rtnType ? $rtnType : self::RTNTYPE_TXT,
 		];
 		if ($fileName) {
 			$post['FILE_NAME'] =   $fileName;

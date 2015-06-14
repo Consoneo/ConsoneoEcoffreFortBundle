@@ -129,10 +129,10 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 		$response = $this->tierArchivage->putFile('testlist.txt', $file);
 		$response = explode('|', $response);
 
-		$list = explode('|', $this->tierArchivage->listFiles('testlist.txt'));
+		$list = explode('|', $this->tierArchivage->listFiles(null, 'testlist.txt'));
 		$this->assertEquals($list[1], 'testlist.txt');
 
-		$list = explode('|', $this->tierArchivage->listFiles('*list.txt'));
+		$list = explode('|', $this->tierArchivage->listFiles(null, '*list.txt'));
 		$this->assertEquals($list[1], 'testlist.txt');
 		@$this->tierArchivage->removeFile($response[1]);
 	}
