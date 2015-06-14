@@ -14,6 +14,8 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 	private $tierArchivage;
 
 
+
+
 	protected  function setUp()
 	{
 		if (! file_exists(__DIR__ . '/parameter.yml'))
@@ -112,11 +114,47 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 	{
 		$file = __DIR__ . '/test.txt';
 
-		$response = $this->tierArchivage->putFile('testRemove.txt', $file);
+		$response = $this->tierArchivage->putFile('test.txt', $file);
 		$response = explode('|', $response);
 
 		$remove = $this->tierArchivage->removeFile($response[1]);
 
 		$this->assertEquals(0, $remove);
+	}
+
+	public function testListFiles()
+	{
+		$file = __DIR__ . '/test.txt';
+
+		$response = $this->tierArchivage->putFile('testlist.txt', $file);
+		$response = explode('|', $response);
+
+		$list = explode('|', $this->tierArchivage->listFiles('testlist.txt'));
+		$this->assertEquals($list[1], 'testlist.txt');
+
+		$list = explode('|', $this->tierArchivage->listFiles('*list.txt'));
+		$this->assertEquals($list[1], 'testlist.txt');
+		@$this->tierArchivage->removeFile($response[1]);
+	}
+
+	public function testGetprop()
+	{
+		$file = __DIR__ . '/test.txt';
+		$response = $this->tierArchivage->putFile('testlist.txt', $file);
+		$response = explode('|', $response);
+
+		$prop = explode('|', $this->tierArchivage->getProp($response[1]));
+		$this->assertEquals(0, $prop[0]);
+		$this->assertEquals($prop[1], $response[1]);
+		$this->assertEquals('testlist.txt', $response[2]);
+		$this->assertEquals(hash('sha256', file_get_contents($file)), $prop[3]);
+		@$this->tierArchivage->removeFile($response[1]);
+	}
+
+	public function testSafeGetprop()
+	{
+		$response = explode('|', $this->tierArchivage->safeGetProp());
+		$this->assertEquals(0, $response[0]);
+		$this->assertEquals($this->tierArchivage->getSafeId(), $response[1]);
 	}
 }

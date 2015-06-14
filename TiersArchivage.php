@@ -5,7 +5,10 @@ namespace Consoneo\Bundle\EcoffreFortBundle;
 use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\GetPropEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\ListEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\SafeGetPropEvent;
 
 class TiersArchivage extends ECoffreFort
 {
@@ -123,11 +126,6 @@ class TiersArchivage extends ECoffreFort
 	}
 
 	/**
-	 * @todo
-	 * API de Listage des archives
-	 */
-
-	/**
 	 * API de Suppression
 	 *
 	 * @param String $iua Identifiant Archive Unique
@@ -162,17 +160,124 @@ class TiersArchivage extends ECoffreFort
 	}
 
 	/**
-	 * @todo
 	 * API de Listage des archives
+	 * @param null $fileName
+	 * @param null $fileHash
+	 * @param null $fileSizeMin
+	 * @param null $fileSizeMax
+	 * @param null $filesTampBeg
+	 * @param null $filesTampEnd
+	 * @param null $maxList
+	 * @return mixed|string
 	 */
+	public function listFiles($fileName = null, $fileHash = null, $fileSizeMin = null, $fileSizeMax = null, $filesTampBeg = null, $filesTampEnd = null, $maxList = null)
+	{
+		$post = [
+			'SAFE_ROOM'         =>  $this->safe_room,
+			'SAFE_ID'           =>  $this->safe_id,
+			'USER_LOGIN'        =>  $this->user_login,
+			'USER_PASSWD'       =>  $this->user_password,
+			'RTNTYPE'           =>  self::RTNTYPE_TXT,
+		];
+		if ($fileName) {
+			$post['FILE_NAME'] =   $fileName;
+		}
+		if ($fileHash) {
+			$post['FILE_HASH'] =   $fileHash;
+		}
+		if ($fileSizeMin) {
+			$post['FILESIZE_MIN'] =   $fileSizeMin;
+		}
+		if ($fileSizeMax) {
+			$post['FILESIZE_MAX'] =   $fileSizeMax;
+		}
+		if ($filesTampBeg) {
+			$post['FILESTAMP_BEG'] =   $filesTampBeg;
+		}
+		if ($filesTampEnd) {
+			$post['FILESTAMP_END'] =   $filesTampEnd;
+		}
+		if ($maxList) {
+			$post['MAXLIST'] =   $maxList;
+		}
+
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, self::LIST_URI);
+		curl_setopt($c, CURLOPT_TIMEOUT, 30);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, $post);
+		$response = curl_exec($c);
+
+		if (curl_error($c)) {
+			$response = curl_error($c);
+		} else {
+			$this->dispatcher->dispatch(ListEvent::NAME, new ListEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response));
+		}
+
+		return $response;
+	}
 
 	/**
-	 * @todo
 	 * API de récupération des propriétés d'une archive
+	 * @param $iua
+	 * @return mixed|string
 	 */
+	public function getProp($iua)
+	{
+		$post = [
+			'SAFE_ROOM'         =>  $this->safe_room,
+			'SAFE_ID'           =>  $this->safe_id,
+			'USER_LOGIN'        =>  $this->user_login,
+			'USER_PASSWD'       =>  $this->user_password,
+			'FILE_IUA'          =>  $iua,
+			'RTNTYPE'           =>  self::RTNTYPE_TXT,
+		];
+
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, self::GETPROP_URI);
+		curl_setopt($c, CURLOPT_TIMEOUT, 30);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, $post);
+		$response = curl_exec($c);
+
+		if (curl_error($c)) {
+			$response = curl_error($c);
+		} else {
+			$this->dispatcher->dispatch(GetPropEvent::NAME, new GetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+		}
+
+		return $response;
+	}
 
 	/**
-	 * @todo
 	 * API de récupération des propriétés d'un coffre
 	 */
+	public function safeGetProp()
+	{
+		$post = [
+			'SAFE_ROOM'         =>  $this->safe_room,
+			'SAFE_ID'           =>  $this->safe_id,
+			'USER_LOGIN'        =>  $this->user_login,
+			'USER_PASSWD'       =>  $this->user_password,
+			'RTNTYPE'           =>  self::RTNTYPE_TXT,
+		];
+
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, self::SAFEGETPROP_URI);
+		curl_setopt($c, CURLOPT_TIMEOUT, 30);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, $post);
+		$response = curl_exec($c);
+
+		if (curl_error($c)) {
+			$response = curl_error($c);
+		} else {
+			$this->dispatcher->dispatch(SafeGetPropEvent::NAME, new SafeGetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response));
+		}
+
+		return $response;
+	}
 }

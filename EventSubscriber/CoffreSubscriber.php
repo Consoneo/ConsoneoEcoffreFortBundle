@@ -7,9 +7,12 @@ use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
 use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\GetPropEvent;
+use Consoneo\Bundle\EcoffreFortBundle\Event\ListEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\MoveEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\QueryEventInterface;
+use Consoneo\Bundle\EcoffreFortBundle\Event\SafeGetPropEvent;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -43,6 +46,9 @@ class CoffreSubscriber implements EventSubscriberInterface {
 				['logQuery'],
 				['updateAnnuaire'],
 			],
+			ListEvent::NAME =>  'logQuery',
+			GetPropEvent::NAME  =>  'logQuery',
+			SafeGetPropEvent::NAME  =>  'logQuery',
 		);
 	}
 

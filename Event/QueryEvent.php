@@ -38,7 +38,7 @@ abstract class QueryEvent extends Event
 	 * @param $iua
 	 * @param $codeRetour
 	 */
-	public function __construct($serviceType, $safeRoom = null, $safeId, $iua, $codeRetour)
+	public function __construct($serviceType, $safeRoom = null, $safeId, $iua = null, $codeRetour)
 	{
 		$this->safeId       =   $safeId;
 		$this->iua          =   $iua;
