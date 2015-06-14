@@ -44,7 +44,7 @@ class Annuaire
 	private $docName;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	private $targetDir;
 
