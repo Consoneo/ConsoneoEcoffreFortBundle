@@ -12,7 +12,7 @@ class DelCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('ecoffrefort:removeFiles')
+			->setName('ecoffrefort:del')
 			->setDescription('suprimer des fichiers du tiers archivage')
 			->addArgument('serviceId', InputArgument::REQUIRED, 'nom du service de tiers archivage')
 			->addArgument('iuas', InputArgument::REQUIRED, 'IUA des fichiers à suprimer séparé par une virgule')

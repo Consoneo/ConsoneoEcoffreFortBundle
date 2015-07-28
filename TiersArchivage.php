@@ -3,6 +3,7 @@
 namespace Consoneo\Bundle\EcoffreFortBundle;
 
 use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
+use Consoneo\Bundle\EcoffreFortBundle\Event\CertEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\DelEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\GetPropEvent;
@@ -14,6 +15,7 @@ class TiersArchivage extends ECoffreFort
 {
 	const PUT_URI            =   'https://www.e-coffrefort.fr/ta/put.php';
 	const GET_URI            =   'https://www.e-coffrefort.fr/ta/get.php';
+	const CERT_URI           =   'https://www.e-coffrefort.fr/ta/get_cert.php';
 	const LIST_URI           =   'https://www.e-coffrefort.fr/ta/list.php';
 	const DEL_URI            =   'https://www.e-coffrefort.fr/ta/del.php';
 	const GETPROP_URI        =   'https://www.e-coffrefort.fr/ta/getprop.php';
@@ -120,6 +122,40 @@ class TiersArchivage extends ECoffreFort
 			$response = curl_error($c);
 		} else {
 			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+		}
+
+		return $response;
+	}
+
+	/**
+	 * API de Récupération du Certificat de conformité
+	 *
+	 * @param String $iua Identifiant Archive Unique
+	 * @return mixed
+	 */
+	public function getCert($iua)
+	{
+		$post = [
+			'SAFE_ROOM'         =>  $this->safe_room,
+			'SAFE_ID'           =>  $this->safe_id,
+			'USER_LOGIN'        =>  $this->user_login,
+			'USER_PASSWD'       =>  $this->user_password,
+			'FILE_IUA'          =>  $iua,
+			'RTNTYPE'           =>  self::RTNTYPE_TXT,
+		];
+
+		$c = curl_init();
+		curl_setopt($c, CURLOPT_URL, self::CERT_URI);
+		curl_setopt($c, CURLOPT_TIMEOUT, 30);
+		curl_setopt($c, CURLOPT_POST, true);
+		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($c, CURLOPT_POSTFIELDS, $post);
+		$response = curl_exec($c);
+
+		if (curl_error($c)) {
+			$response = curl_error($c);
+		} else {
+			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
 		}
 
 		return $response;

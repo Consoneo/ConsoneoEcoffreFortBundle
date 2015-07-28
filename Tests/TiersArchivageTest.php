@@ -110,6 +110,21 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 		@$this->tierArchivage->removeFile($response[1]);
 	}
 
+	public function testGetCert()
+	{
+		$file = __DIR__ . '/test.txt';
+
+		$fileCert = __DIR__ . '/test.pdf';
+
+		$response = $this->tierArchivage->putFile('test.txt', $file);
+
+		$response = explode('|', $response);
+
+		file_put_contents($fileCert, $this->tierArchivage->getCert($response[1]));
+		@$this->tierArchivage->removeFile($response[1]);
+		@unlink($fileCert);
+	}
+
 	public function testDelFile()
 	{
 		$file = __DIR__ . '/test.txt';
