@@ -13,15 +13,15 @@
   "require": {
     "php": ">=5.4.1",
     "symfony/symfony": ">=2.5.0",
-    "doctrine/doctrine-bundle": "~1.2",
-    "doctrine/orm": "2.4.*",
     "gedmo/doctrine-extensions": ">=2.3.9",
 
     "sonata-project/doctrine-orm-admin-bundle": "~2.3",
     "sonata-project/admin-bundle": "~2.3",
     "sonata-project/core-bundle": "~2.3",
 
-    "monolog/monolog": ">=1.10.0"
+    "monolog/monolog": ">=1.10.0",
+    "doctrine/orm": "^2.5",
+    "doctrine/doctrine-bundle": "^1.6"
   },
   "require-dev": {
     "phpunit/phpunit": "4.0.*",
