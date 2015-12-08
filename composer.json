@@ -15,13 +15,9 @@
     "symfony/symfony": ">=2.5.0",
     "gedmo/doctrine-extensions": ">=2.3.9",
 
-    "sonata-project/doctrine-orm-admin-bundle": "~2.3",
-    "sonata-project/admin-bundle": "~2.3",
-    "sonata-project/core-bundle": "~2.3",
-
     "monolog/monolog": ">=1.10.0",
-    "doctrine/orm": "^2.5",
-    "doctrine/doctrine-bundle": "^1.6"
+    "doctrine/orm": ">=2.4",
+    "doctrine/doctrine-bundle": ">=1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "4.0.*",
