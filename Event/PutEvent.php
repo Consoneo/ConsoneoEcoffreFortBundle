@@ -93,4 +93,76 @@ class PutEvent extends QueryEvent implements QueryEventInterface
 	{
 		return LogQuery::QUERY_PUT;
 	}
+
+	/**
+	 * @return String
+	 */
+	public function getMd5Type()
+	{
+		return $this->md5Type;
+	}
+
+	/**
+	 * @param String $md5Type
+	 * @return PutEvent
+	 */
+	public function setMd5Type($md5Type)
+	{
+		$this->md5Type = $md5Type;
+		return $this;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getFileSize()
+	{
+		return $this->fileSize;
+	}
+
+	/**
+	 * @param String $fileSize
+	 * @return PutEvent
+	 */
+	public function setFileSize($fileSize)
+	{
+		$this->fileSize = $fileSize;
+		return $this;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getFileDate()
+	{
+		return $this->fileDate;
+	}
+
+	/**
+	 * @param String $fileDate
+	 * @return PutEvent
+	 */
+	public function setFileDate($fileDate)
+	{
+		$this->fileDate = $fileDate;
+		return $this;
+	}
+
+	/**
+	 * @return String
+	 */
+	public function getFileTime()
+	{
+		return $this->fileTime;
+	}
+
+	/**
+	 * @param String $fileTime
+	 * @return PutEvent
+	 */
+	public function setFileTime($fileTime)
+	{
+		$this->fileTime = $fileTime;
+		return $this;
+	}
 }
