@@ -25,7 +25,7 @@ class LogQuery
     const COFFRE            =   'coffre';
 	const TA                =   'tiersArchivage';
 
-	private $labelReturnCode = [
+	public static $labelReturnCode = [
 		self::COFFRE    =>  [
 			self::QUERY_PUT =>  [
 				'0'     =>  'Le fichier a été déposé avec succès',
@@ -388,6 +388,6 @@ class LogQuery
      */
 	public function getLabelReturnCode()
 	{
-		return $this->labelReturnCode[$this->getServiceType()][$this->getQueryType()][$this->getReturnCode()];
+		return static::$labelReturnCode[$this->getServiceType()][$this->getQueryType()][$this->getReturnCode()];
 	}
 }
