@@ -3,6 +3,7 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Command;
 
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,7 +34,7 @@ class ListCommand extends ContainerAwareCommand
 				$output->writeln('<info>Aucun fichiers</info>');
 			} else {
 				$files = simplexml_load_string($files);
-				$table = $this->getHelperSet()->get('table');
+				$table = new Table($output);
 				$table
 					->setHeaders(['IUA', 'NAME', 'HASH', 'HASH TYPE', 'SIZE', 'DATE', 'EXPIRE']);
 
@@ -42,7 +43,7 @@ class ListCommand extends ContainerAwareCommand
 						[$file->FILE_IUA, $file->FILE_NAME, $file->FILE_HASH, $file->FILE_HASH_TYPE, $file->FILE_SIZE,
 							$file->FILE_DATE, $file->FILE_EXPIRE]);
 				}
-				$table->render($output);
+				$table->render();
 			}
 		}
 	}

@@ -104,7 +104,7 @@ class Coffre extends ECoffreFort
 	 */
 	public function getFile($iua)
 	{
-		$yy     = rand(0,99);
+		$yy     = mt_rand(0,99);
 
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
@@ -132,7 +132,7 @@ class Coffre extends ECoffreFort
 	 */
 	public function removeFile($iua)
 	{
-		$yy     = rand(0,99);
+		$yy     = mt_rand(0,99);
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s', self::DEL_URI, $key);
@@ -160,7 +160,7 @@ class Coffre extends ECoffreFort
 	 */
 	public function getCert($iua)
 	{
-		$yy     = rand(0,99);
+		$yy     = mt_rand(0,99);
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s&MODE=RAW', self::CERT_URI, $key);
@@ -189,7 +189,7 @@ class Coffre extends ECoffreFort
 	 */
 	public function moveFile($iua, $target, $charset = self::CHARSET)
 	{
-		$yy     = rand(0,99);
+		$yy     = mt_rand(0,99);
 		$key    = sprintf('%s%s)', $yy, base64_encode(sprintf('%s|%s|%s|%s|%s',
 			$this->safe_id, $this->password, $this->part_id, $iua, $yy)));
 		$url    = sprintf('%s?P=%s&DEST=%s&CHARSET=%s', self::MOVE_URI, $key, $target, $charset);
