@@ -29,7 +29,7 @@ class Annuaire
 	private $createdDateTime;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	private $iua;
 
@@ -49,7 +49,7 @@ class Annuaire
 	private $targetDir;
 
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	private $md5DocName;
 
