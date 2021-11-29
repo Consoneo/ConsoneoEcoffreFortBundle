@@ -34,16 +34,19 @@ class TiersArchivageMap implements \IteratorAggregate
 	 *
 	 * @throw \InvalidArgumentException if the coffre does not exist
 	 */
-	public function get($name)
-	{
-		$name = str_replace('-', '_',$name);
+    public function get($name)
+    {
+        $name = str_replace('-', '_',$name);
 
-		if (!isset($this->map[$name])) {
-			throw new \InvalidArgumentException(sprintf('No tiers archivage register for name "%s"', $name));
-		}
+        foreach ($this->map as $key => $map) {
+            if ($map->getSafeId() === $name) {
+                return $map;
+            }
+        }
 
-		return $this->map[$name];
-	}
+        throw new \InvalidArgumentException(sprintf('No tiers archivage register for name "%s"', $name));
+
+    }
 
 	public function getIterator()
 	{
