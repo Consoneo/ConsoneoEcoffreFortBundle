@@ -25,6 +25,26 @@ class TiersArchivageMap implements \IteratorAggregate
 		$this->map = $map;
 	}
 
+    /**
+     * Retrieves a coffre by its name.
+     *
+     * @param string $name name of a coffre
+     *
+     * @return Coffre
+     *
+     * @throw \InvalidArgumentException if the coffre does not exist
+     */
+    public function get($name)
+    {
+        $name = str_replace('-', '_',$name);
+
+        if (!isset($this->map[$name])) {
+            throw new \InvalidArgumentException(sprintf('No coffre register for name "%s"', $name));
+        }
+
+        return $this->map[$name];
+    }
+
 	/**
 	 * Retrieves a coffre by its name.
 	 *
@@ -34,7 +54,7 @@ class TiersArchivageMap implements \IteratorAggregate
 	 *
 	 * @throw \InvalidArgumentException if the coffre does not exist
 	 */
-    public function get($name)
+    public function getSafeId($name)
     {
         $name = str_replace('-', '_',$name);
 
