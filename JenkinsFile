@@ -1,0 +1,68 @@
+pipeline {
+    agent {
+        kubernetes {
+            yamlFile '.jenkins/podTemplate.yaml'
+            defaultContainer 'curl'
+        }
+    }
+    environment {
+        vendor_name = "consoneo"
+        project_name = "ecoffre-fort-bundle"
+        version = ""
+        composer_repo_snapshot = "https://nexus.consoneo.tech/repository/consoneo-composer-snapshot/packages/upload"
+        composer_repo_release = "https://nexus.consoneo.tech/repository/consoneo-composer-release/packages/upload"
+        composer_repo_selected = ""
+        package_path = ""
+    }
+    stages {
+        stage('Compute context') {
+            parallel {
+                stage('Compute Snapshot') {
+                    when { allOf { expression { BRANCH_NAME ==~ /(master)/ }; not { buildingTag()} }  }
+                    steps {
+                        script {
+                            composer_repo_selected = "${composer_repo_snapshot}"
+                            version = "master-${BUILD_NUMBER}"
+                        }
+                    }
+                }
+                stage('Compute Release') {
+                    when { buildingTag() }
+                    steps {
+                        script {
+                            composer_repo_selected = "${composer_repo_release}"
+                            version = "${TAG_NAME}"
+                        }
+                    }
+                }
+            }
+        }
+        stage('archive package') {
+            steps {
+                container('zip') {
+                    sh 'zip -r package.zip . -x ./.git/**\\* ./Tests/**\\*'
+                }
+            }
+        }
+        stage('Publish package') {
+            steps {
+                script {
+                    package_path = findFiles(glob: '**/package.zip')[0].path
+                    container('curl') {
+                        withCredentials([usernameColonPassword(credentialsId:'svc-consoneo-jenkins', variable: 'USERPASS')]) {
+                            final def (int http_code,
+                                        String response
+                            ) = sh(script: "curl -s -w '\\n%{http_code}\\n%{http_response}' -u \"$USERPASS\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${version}/\" --upload-file \"$package_path\"",
+                                                                            returnStdout: true).trim().tokenize("\n")
+                            echo "HTTP response status code: $http_code"
+                            if (http_code > 399) {
+                                echo response
+                                exit 1
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
