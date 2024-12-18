@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         script {
                             composer_repo_selected = "${composer_repo_snapshot}"
-                            version = "master-${BUILD_NUMBER}"
+                            version = "master"
                         }
                     }
                 }
