@@ -8,7 +8,7 @@ pipeline {
     environment {
         vendor_name = "consoneo"
         project_name = "ecoffre-fort-bundle"
-        version = ""
+        package_version = ""
         composer_repo_snapshot = "https://nexus.consoneo.tech/repository/consoneo-composer-snapshot/packages/upload"
         composer_repo_release = "https://nexus.consoneo.tech/repository/consoneo-composer-release/packages/upload"
         composer_repo_selected = ""
@@ -22,7 +22,7 @@ pipeline {
                     steps {
                         script {
                             composer_repo_selected = "${composer_repo_snapshot}"
-                            version = "master"
+                            package_version = "master"
                         }
                     }
                 }
@@ -31,7 +31,7 @@ pipeline {
                     steps {
                         script {
                             composer_repo_selected = "${composer_repo_release}"
-                            version = "${TAG_NAME}"
+                            package_version = "${TAG_NAME}"
                         }
                     }
                 }
@@ -39,22 +39,24 @@ pipeline {
         }
         stage('archive package') {
             steps {
-                container('zip') {
-                    sh 'zip -r package.zip . -x ./.git/**\\* ./Tests/**\\*'
+                script {
+                    echo "creation of ${vendor_name}-${project_name}-${package_version}.zip"
+                    container('zip') {
+                        sh "zip -r ${vendor_name}-${project_name}-${package_version}.zip . -x ./.git/**\\* ./examples/**\\*"
+                    }
                 }
             }
         }
         stage('Publish package') {
             steps {
                 script {
-                    package_path = findFiles(glob: '**/package.zip')[0].path
+                    package_path = findFiles(glob: '**/*.zip')[0].path
                     container('curl') {
                         withCredentials([usernameColonPassword(credentialsId:'svc-consoneo-jenkins', variable: 'USERPASS')]) {
-                            final def (int http_code,
-                                        String response
-                            ) = sh(script: "curl -s -w '\\n%{http_code}\\n%{http_response}' -u \"$USERPASS\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${version}/\" --upload-file \"$package_path\"",
+                            final def (String http_code_string, String response) = sh(script: "curl -s -w '\\n%{http_code}\\n%{errormsg}' -u \"$USERPASS\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${package_version}/\" --upload-file \"$package_path\"",
                                                                             returnStdout: true).trim().tokenize("\n")
-                            echo "HTTP response status code: $http_code"
+                            echo "HTTP response status code: $http_code_string"
+                            http_code = Integer.parseInt(http_code_string)
                             if (http_code > 399) {
                                 echo response
                                 exit 1
