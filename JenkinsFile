@@ -53,6 +53,7 @@ pipeline {
                 script {
                     package_path = findFiles(glob: '**/*.zip')[0].path
                     container('curl') {
+                        sh "echo $package_path"
                         withCredentials([usernameColonPassword(credentialsId:'svc-consoneo-jenkins', variable: 'USERPASS')]) {
                             final def (String http_code_string, String response) = sh(script: "curl -s -w '\\n%{http_code}\\n%{errormsg}' -u \"$USERPASS\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${package_version}/${vendor_name}-${project_name}-${package_version}.zip\" --upload-file \"$package_path\"",
                                                                             returnStdout: true).trim().tokenize("\n")
