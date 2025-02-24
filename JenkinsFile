@@ -55,7 +55,7 @@ pipeline {
                     container('curl') {
                         sh "echo $package_path"
                         withCredentials([usernameColonPassword(credentialsId:'svc-consoneo-jenkins', variable: 'USERPASS')]) {
-                            final def (String http_code_string, String response) = sh(script: "curl -s -w '\\n%{http_code}\\n%{errormsg}' -u \"$USERPASS\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${package_version}/${vendor_name}-${project_name}-${package_version}.zip\" --upload-file \"$package_path\"",
+                            final def (String http_code_string, String response) = sh(script: "curl -s -w '\\n%{http_code}\\n%{errormsg}' -u \"$USERPASS\" --upload-file \"$package_path\" \"${composer_repo_selected}/${vendor_name}/${project_name}/${package_version}\"",
                                                                             returnStdout: true).trim().tokenize("\n")
                             echo "HTTP response status code: $http_code_string"
                             http_code = Integer.parseInt(http_code_string)
