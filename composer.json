@@ -13,9 +13,9 @@
   "require": {
     "php"                       : ">=7.4",
     "symfony/symfony"           : "4.4.x-dev",
-    "gedmo/doctrine-extensions" : "^2.4",
+    "gedmo/doctrine-extensions" : "^3.13",
     "symfony/monolog-bundle"    : "^3.3",
-    "doctrine/doctrine-bundle"  : "2.2.*"
+    "doctrine/doctrine-bundle"  : "^2.7"
   },
   "require-dev": {
     "mockery/mockery": "dev-master"
