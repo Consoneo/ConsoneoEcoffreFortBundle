@@ -89,7 +89,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 	 */
 	public function updateAnnuaire(MoveEvent $moveEvent)
 	{
-		$annuaire = $this->em->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
+		$annuaire = $this->em->getRepository(Annuaire::class)
 			->findOneBy([
 				'safeId'    =>  $moveEvent->getSafeId(),
 				'iua'       =>  $moveEvent->getIua(),
@@ -107,7 +107,7 @@ class CoffreSubscriber implements EventSubscriberInterface {
 	 */
 	public function delAnnuaire(DelEvent $delEvent)
 	{
-		$annuaire = $this->em->getRepository('ConsoneoEcoffreFortBundle:Annuaire')
+		$annuaire = $this->em->getRepository(Annuaire::class)
 			->findOneBy([
 				'safeId'        =>  $delEvent->getSafeId(),
 				'iua'           =>  $delEvent->getIua(),
