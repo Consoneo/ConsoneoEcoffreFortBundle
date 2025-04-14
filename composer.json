@@ -12,7 +12,7 @@
   "prefer-stable": true,
   "require": {
     "php"                       : ">=7.4",
-    "symfony/symfony"           : "^5.4",
+    "symfony/framework-bundle"  : "^5.4",
     "gedmo/doctrine-extensions" : "^3.13",
     "symfony/monolog-bundle"    : "^3.3",
     "doctrine/doctrine-bundle"  : "^2.7"

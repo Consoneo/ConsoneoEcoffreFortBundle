@@ -1,9 +1,9 @@
 <?php
 namespace Consoneo\Bundle\EcoffreFortBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-abstract class QueryEvent extends Event
+abstract class QueryEvent implements EventSubscriberInterface
 {
 	/**
 	 * @var String
