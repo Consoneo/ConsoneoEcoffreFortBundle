@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('consoneo_ecoffre_fort');
         $rootNode = $treeBuilder->getRootNode();
@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
 	 *
 	 * @return ArrayNodeDefinition
 	 */
-	private function addCoffresSection()
+	private function addCoffresSection(): ArrayNodeDefinition
 	{
 		$tree = new TreeBuilder('coffres');
 		$node = $tree->getRootNode();
@@ -61,7 +61,7 @@ class Configuration implements ConfigurationInterface
 	 *
 	 * @return ArrayNodeDefinition
 	 */
-	private function addTiersArchivageSection()
+	private function addTiersArchivageSection(): ArrayNodeDefinition
 	{
 		$tree = new TreeBuilder('tiers_archivages');
 		$node = $tree->getRootNode();
@@ -81,5 +81,4 @@ class Configuration implements ConfigurationInterface
 
 		return $node;
 	}
-
 }

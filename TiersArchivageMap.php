@@ -45,7 +45,7 @@ class TiersArchivageMap implements \IteratorAggregate
 		return $this->map[$name];
 	}
 
-	public function getIterator()
+	public function getIterator(): \Traversable
 	{
 		return new \ArrayIterator($this->map);
 	}
