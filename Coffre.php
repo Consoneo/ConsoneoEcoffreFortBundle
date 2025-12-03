@@ -90,7 +90,7 @@ class Coffre extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent(LogQuery::COFFRE, null, $docName, $this->safe_id, $targetDir, $response));
+			$this->dispatcher->dispatch(new PutEvent(LogQuery::COFFRE, null, $docName, $this->safe_id, $targetDir, $response), PutEvent::NAME);
 		}
 
 		return $response;
@@ -118,7 +118,7 @@ class Coffre extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new GetEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response), GetEvent::NAME);
 		}
 
 		return $response;
@@ -146,7 +146,7 @@ class Coffre extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new DelEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response), DelEvent::NAME);
 		}
 
 		return $response;
@@ -173,7 +173,7 @@ class Coffre extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new CertEvent(LogQuery::COFFRE, null, $this->safe_id, $iua, $response), CertEvent::NAME);
 		}
 
 		return $response;
@@ -202,7 +202,7 @@ class Coffre extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(MoveEvent::NAME, new MoveEvent($this->safe_id, $iua, $response, $target));
+			$this->dispatcher->dispatch(new MoveEvent($this->safe_id, $iua, $response, $target), MoveEvent::NAME);
 		}
 
 		return $response;

@@ -87,7 +87,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(PutEvent::NAME, new PutEvent(LogQuery::TA, $this->safe_room, $fileName, $this->safe_id, null, $response));
+			$this->dispatcher->dispatch(new PutEvent(LogQuery::TA, $this->safe_room, $fileName, $this->safe_id, null, $response), PutEvent::NAME);
 		}
 
 		return $response;
@@ -121,7 +121,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(GetEvent::NAME, new GetEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new GetEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response), GetEvent::NAME);
 		}
 
 		return $response;
@@ -155,7 +155,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(CertEvent::NAME, new CertEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new CertEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response), CertEvent::NAME);
 		}
 
 		return $response;
@@ -189,7 +189,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(DelEvent::NAME, new DelEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new DelEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response), DelEvent::NAME);
 		}
 
 		return $response;
@@ -249,7 +249,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(ListEvent::NAME, new ListEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response));
+			$this->dispatcher->dispatch(new ListEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response), ListEvent::NAME);
 		}
 
 		return $response;
@@ -282,7 +282,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(GetPropEvent::NAME, new GetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response));
+			$this->dispatcher->dispatch(new GetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, $iua, $response), GetPropEvent::NAME);
 		}
 
 		return $response;
@@ -312,7 +312,7 @@ class TiersArchivage extends ECoffreFort
 		if (curl_error($c)) {
 			$response = curl_error($c);
 		} else {
-			$this->dispatcher->dispatch(SafeGetPropEvent::NAME, new SafeGetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response));
+			$this->dispatcher->dispatch(new SafeGetPropEvent(LogQuery::TA, $this->safe_room, $this->safe_id, null, $response), SafeGetPropEvent::NAME);
 		}
 
 		return $response;
