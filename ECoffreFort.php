@@ -3,8 +3,8 @@
 namespace Consoneo\Bundle\EcoffreFortBundle;
 
 use Consoneo\Bundle\EcoffreFortBundle\EventSubscriber\CoffreSubscriber;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Bridge\Monolog\Logger;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 abstract class ECoffreFort
@@ -16,7 +16,7 @@ abstract class ECoffreFort
 	protected $safe_id;
 
 	/**
-	 * @var Registry
+	 * @var ManagerRegistry
 	 */
 	protected $doctrine;
 
@@ -26,18 +26,18 @@ abstract class ECoffreFort
 	protected $dispatcher;
 
 	/**
-	 * @var Logger
+	 * @var LoggerInterface
 	 */
 	protected $logger;
 
-	public function setDoctrine(Registry $doctrine)
+	public function setDoctrine(ManagerRegistry $doctrine)
 	{
 		$this->doctrine     = $doctrine;
 		$this->dispatcher   = new EventDispatcher();
 		$this->dispatcher->addSubscriber(new CoffreSubscriber($this->doctrine->getManager()));
 	}
 
-	public function setLogger(Logger $logger)
+	public function setLogger(LoggerInterface $logger)
 	{
 		$this->logger = $logger;
 	}

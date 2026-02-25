@@ -4,9 +4,10 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 
 use Consoneo\Bundle\EcoffreFortBundle\Coffre;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Parser;
 
-class CoffreTest extends \PHPUnit_Framework_TestCase
+class CoffreTest extends TestCase
 {
 	/**
 	 * @var Coffre
@@ -14,7 +15,7 @@ class CoffreTest extends \PHPUnit_Framework_TestCase
 	private $coffre;
 
 
-	protected  function setUp()
+	protected function setUp(): void
 	{
 		if (! file_exists(__DIR__ . '/parameter.yml'))
 		{
@@ -36,11 +37,7 @@ class CoffreTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function getMockLogger()
 	{
-		$logger = m::mock('Symfony\Bridge\Monolog\Logger');
-
-		/*$logger
-			->shouldReceive('getManager')->times(10)
-			->andReturn($this->getMockManager());*/
+		$logger = m::mock('Psr\Log\LoggerInterface');
 
 		return $logger;
 	}
@@ -50,7 +47,7 @@ class CoffreTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function getMockDoctrine()
 	{
-		$doctrine = m::mock('Doctrine\Bundle\DoctrineBundle\Registry');
+		$doctrine = m::mock('Doctrine\Persistence\ManagerRegistry');
 
 		$doctrine
 			->shouldReceive('getManager')->times(10)

@@ -4,34 +4,31 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 
 use Consoneo\Bundle\EcoffreFortBundle\Coffre;
 use Consoneo\Bundle\EcoffreFortBundle\CoffreMap;
+use PHPUnit\Framework\TestCase;
 
-class CoffreMapTest extends \PHPUnit_Framework_TestCase
+class CoffreMapTest extends TestCase
 {
 	/**
 	 * @var CoffreMap
 	 */
 	private $coffreMap;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->coffreMap = new CoffreMap(array('consoneo' => $this->getCoffre(), 'obligeX' => $this->getCoffre()));
 	}
 
-	/**
-	 * @test
-	 */
+	#[\PHPUnit\Framework\Attributes\Test]
 	public function shouldGetFilesystemByKey()
 	{
 		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\Coffre', $this->coffreMap->get('consoneo'), 'should get coffre object by key');
 		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\Coffre', $this->coffreMap->get('obligeX'), 'should get coffre object by key');
 	}
 
-	/**
-	 * @test
-	 * @expectedException \InvalidArgumentException
-	 */
+	#[\PHPUnit\Framework\Attributes\Test]
 	public function shouldNotGetFilesystemWhenKeyWasNotSet()
 	{
+		$this->expectException(\InvalidArgumentException::class);
 		$this->coffreMap->get('test');
 	}
 

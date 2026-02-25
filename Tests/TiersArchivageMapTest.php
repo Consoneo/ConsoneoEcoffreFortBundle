@@ -2,38 +2,34 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 
-use Consoneo\Bundle\EcoffreFortBundle\CoffreMap;
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivageMap;
+use PHPUnit\Framework\TestCase;
 
-class TiersArchivageMapTest extends \PHPUnit_Framework_TestCase
+class TiersArchivageMapTest extends TestCase
 {
 	/**
-	 * @var CoffreMap
+	 * @var TiersArchivageMap
 	 */
-	private $coffreMap;
+	private $tiersArchivageMap;
 
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->coffreMap = new TiersArchivageMap(array('consoneo' => $this->getTiersArchivage(), 'obligeX' => $this->getTiersArchivage()));
+		$this->tiersArchivageMap = new TiersArchivageMap(array('consoneo' => $this->getTiersArchivage(), 'obligeX' => $this->getTiersArchivage()));
 	}
 
-	/**
-	 * @test
-	 */
+	#[\PHPUnit\Framework\Attributes\Test]
 	public function shouldGetFilesystemByKey()
 	{
-		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\TiersArchivage', $this->coffreMap->get('consoneo'), 'should get tiers archivage object by key');
-		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\TiersArchivage', $this->coffreMap->get('obligeX'), 'should get tiers archivage by key');
+		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\TiersArchivage', $this->tiersArchivageMap->get('consoneo'), 'should get tiers archivage object by key');
+		$this->assertInstanceOf('Consoneo\Bundle\EcoffreFortBundle\TiersArchivage', $this->tiersArchivageMap->get('obligeX'), 'should get tiers archivage by key');
 	}
 
-	/**
-	 * @test
-	 * @expectedException \InvalidArgumentException
-	 */
+	#[\PHPUnit\Framework\Attributes\Test]
 	public function shouldNotGetFilesystemWhenKeyWasNotSet()
 	{
-		$this->coffreMap->get('test');
+		$this->expectException(\InvalidArgumentException::class);
+		$this->tiersArchivageMap->get('test');
 	}
 
 	/**

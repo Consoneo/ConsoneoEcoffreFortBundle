@@ -4,9 +4,10 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Tests;
 
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
 use Mockery as m;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Parser;
 
-class TiersArchivageTest extends \PHPUnit_Framework_TestCase
+class TiersArchivageTest extends TestCase
 {
 	/**
 	 * @var TiersArchivage
@@ -16,7 +17,7 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 
 
 
-	protected  function setUp()
+	protected function setUp(): void
 	{
 		if (! file_exists(__DIR__ . '/parameter.yml'))
 		{
@@ -38,11 +39,7 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function getMockLogger()
 	{
-		$logger = m::mock('Symfony\Bridge\Monolog\Logger');
-
-		/*$logger
-			->shouldReceive('getManager')->times(10)
-			->andReturn($this->getMockManager());*/
+		$logger = m::mock('Psr\Log\LoggerInterface');
 
 		return $logger;
 	}
@@ -52,7 +49,7 @@ class TiersArchivageTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function getMockDoctrine()
 	{
-		$doctrine = m::mock('Doctrine\Bundle\DoctrineBundle\Registry');
+		$doctrine = m::mock('Doctrine\Persistence\ManagerRegistry');
 
 		$doctrine
 			->shouldReceive('getManager')->times(10)

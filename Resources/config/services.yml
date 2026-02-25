@@ -1,6 +1,7 @@
 services:
   _defaults:
     public: true
+
   ecoffrefort.coffre_map:
     class: Consoneo\Bundle\EcoffreFortBundle\CoffreMap
     arguments:
@@ -11,20 +12,30 @@ services:
     arguments:
       - ~
 
+  Consoneo\Bundle\EcoffreFortBundle\Command\DelCommand:
+    arguments:
+      - '@ecoffrefort.tiers_archivage_map'
+    tags:
+      - { name: console.command }
+
+  Consoneo\Bundle\EcoffreFortBundle\Command\ListCommand:
+    arguments:
+      - '@ecoffrefort.tiers_archivage_map'
+    tags:
+      - { name: console.command }
+
+  Consoneo\Bundle\EcoffreFortBundle\Command\PutCommand:
+    arguments:
+      - '@ecoffrefort.tiers_archivage_map'
+    tags:
+      - { name: console.command }
+
   sonata.admin.ecoffrefort.logquery:
     class: Consoneo\Bundle\EcoffreFortBundle\Admin\LogQueryAdmin
-    arguments:
-      - ~
-      - Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery
-      - ~
     tags:
-      - { name: sonata.admin, manager_type: orm, label: LogQuery }
+      - { name: sonata.admin, manager_type: orm, label: LogQuery, model_class: Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery }
 
   sonata.admin.ecoffrefort.annuaire:
     class: Consoneo\Bundle\EcoffreFortBundle\Admin\AnnuaireAdmin
-    arguments:
-      - ~
-      - Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire
-      - ConsoneoEcoffreFortBundle:CRUD
     tags:
-      - { name: sonata.admin, manager_type: orm, label: Annuaire }
+      - { name: sonata.admin, manager_type: orm, label: Annuaire, model_class: Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire, controller: Consoneo\Bundle\EcoffreFortBundle\Controller\CRUDController }

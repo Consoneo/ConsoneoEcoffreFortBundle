@@ -2,25 +2,21 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 
-class AnnuaireAdmin extends Admin
+class AnnuaireAdmin extends AbstractAdmin
 {
-	/**
-	 * Default Datagrid values
-	 *
-	 * @var array
-	 */
-	protected $datagridValues = array(
-		'_page' => 1,
-		'_sort_order' => 'DESC',
-		'_sort_by' => 'createdDateTime'
-	);
+	protected function configureDefaultSortValues(array &$sortValues): void
+	{
+		$sortValues['_page'] = 1;
+		$sortValues['_sort_order'] = 'DESC';
+		$sortValues['_sort_by'] = 'createdDateTime';
+	}
 
-	protected function configureListFields(ListMapper $listMapper)
+	protected function configureListFields(ListMapper $listMapper): void
 	{
 		$listMapper
 			->add('createdDateTime', null, ['label'    =>  'Date de création'])
@@ -34,18 +30,17 @@ class AnnuaireAdmin extends Admin
 			->add('_action', 'actions', array(
 				'actions' => array(
 					'pdfView' => array(
-						'template'  => 'ConsoneoEcoffreFortBundle:Sonata:list__action_pdf_view.html.twig',
+						'template'  => '@ConsoneoEcoffreFort/Sonata/list__action_pdf_view.html.twig',
 					),
 				)
 			))
 		;
 	}
 
-	protected function configureDatagridFilters(DatagridMapper $datagrid)
+	protected function configureDatagridFilters(DatagridMapper $datagrid): void
 	{
 		$datagrid
-			->add('createdDateTime', 'doctrine_orm_datetime_range', [
-				'input_type'    =>  'timestamp',
+			->add('createdDateTime', null, [
 				'label'         =>  'Date de création',
 			])
 			->add('safeId', null, ['label'  =>  'Nom du Coffre'])
@@ -57,7 +52,7 @@ class AnnuaireAdmin extends Admin
 		;
 	}
 
-	protected function configureRoutes(RouteCollection $collection)
+	protected function configureRoutes(RouteCollection $collection): void
 	{
 		$collection
 			->add('pdfView',  $this->getRouterIdParameter().'/pdfView')

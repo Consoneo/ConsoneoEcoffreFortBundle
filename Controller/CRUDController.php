@@ -5,14 +5,15 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Controller;
 use Consoneo\Bundle\EcoffreFortBundle\Entity\Annuaire;
 use Consoneo\Bundle\EcoffreFortBundle\Entity\LogQuery;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CRUDController extends Controller
 {
-	public function pdfViewAction()
+	public function pdfViewAction(Request $request): Response
 	{
-		$id = $this->get('request')->get($this->admin->getIdParameter());
+		$id = $request->get($this->admin->getIdParameter());
 
 		/** @var $object Annuaire */
 		$object = $this->admin->getObject($id);
@@ -22,14 +23,12 @@ class CRUDController extends Controller
 		}
 
 		if ($object->getServiceType() == LogQuery::TA) {
-			$content = $this->container->get('ecoffrefort.coffre_map')->get(sprintf('consoneo.ecoffrefort.tiers.archivage.%s', strtolower($object->getSafeId())))
+			$content = $this->container->get('ecoffrefort.tiers_archivage_map')->get(sprintf('consoneo.ecoffrefort.tiers.archivage.%s', strtolower($object->getSafeId())))
 				->getFile($object->getIua());
 		} else {
 			$content = $this->container->get('ecoffrefort.coffre_map')->get(sprintf('consoneo.ecoffrefort.coffre.%s', strtolower($object->getSafeId())))
 				->getFile($object->getIua());
 		}
-
-
 
 		$this->container->get('doctrine')->getManager()->flush();
 

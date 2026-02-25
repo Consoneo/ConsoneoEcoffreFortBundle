@@ -1,18 +1,27 @@
 <?php
 namespace Consoneo\Bundle\EcoffreFortBundle\Command;
 
-use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Consoneo\Bundle\EcoffreFortBundle\TiersArchivageMap;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PutCommand extends ContainerAwareCommand
+class PutCommand extends Command
 {
-	protected function configure()
+	protected static $defaultName = 'ecoffrefort:put';
+
+	private TiersArchivageMap $tiersArchivageMap;
+
+	public function __construct(TiersArchivageMap $tiersArchivageMap)
+	{
+		parent::__construct();
+		$this->tiersArchivageMap = $tiersArchivageMap;
+	}
+
+	protected function configure(): void
 	{
 		$this
-			->setName('ecoffrefort:put')
 			->setDescription('ajout un fichier dans un Tiers Archivage')
 			->addArgument('serviceId', InputArgument::REQUIRED, 'nom du service de tiers archivage')
 			->addArgument('path', InputArgument::REQUIRED, 'chemin du fichier')
@@ -20,27 +29,26 @@ class PutCommand extends ContainerAwareCommand
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		if (!$this->getContainer()->has($input->getArgument('serviceId'))) {
+		try {
+			$service = $this->tiersArchivageMap->get($input->getArgument('serviceId'));
+		} catch (\InvalidArgumentException $e) {
 			$output->writeln('<error>service inexistant</error>');
-			return;
+			return Command::FAILURE;
 		}
 
 		if (!realpath($input->getArgument('path'))) {
 			$output->writeln('<error>Fichier introuvable</error>');
-			return;
+			return Command::FAILURE;
 		}
 
-		if ($this->getContainer()->get($input->getArgument('serviceId')) instanceof TiersArchivage) {
-			/** @var  $service TiersArchivage */
-			$service = $this->getContainer()->get($input->getArgument('serviceId'));
+		$output->writeln('<info>Ajout du fichier dans l\'Archive de Tiers Archivage</info>');
 
-			$output->writeln('<info>Ajout du fichier dans l\'Archive de Tiers Archivage</info>');
+		$response = $service->putFile($input->getArgument('fileName'), realpath($input->getArgument('path')));
 
-			$response = $service->putFile($input->getArgument('fileName'), realpath($input->getArgument('path')));
+		$output->writeln($response);
 
-			$output->writeln($response);
-		}
+		return Command::SUCCESS;
 	}
 }

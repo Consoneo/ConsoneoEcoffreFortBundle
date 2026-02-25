@@ -13,17 +13,14 @@ use Consoneo\Bundle\EcoffreFortBundle\Event\MoveEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\PutEvent;
 use Consoneo\Bundle\EcoffreFortBundle\Event\QueryEventInterface;
 use Consoneo\Bundle\EcoffreFortBundle\Event\SafeGetPropEvent;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CoffreSubscriber implements EventSubscriberInterface {
 
-	/**
-	 * @var EntityManager
-	 */
-	private $em;
+	private EntityManagerInterface $em;
 
-	public function __construct(EntityManager $em)
+	public function __construct(EntityManagerInterface $em)
 	{
 		$this->em =   $em;
 	}
