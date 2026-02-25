@@ -2,226 +2,127 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * Consoneo\Bundle\ECoffreBundle\Entity\LogQuery
- *
- * @ORM\Table(name="ECoffreFortAnnuaire")
- * @ORM\Entity()
- */
+#[ORM\Table(name: 'ECoffreFortAnnuaire')]
+#[ORM\Entity]
 class Annuaire
 {
-	/**
-	 * @var integer $id
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+	#[ORM\Column(name: 'id', type: Types::INTEGER)]
+	#[ORM\Id]
+	#[ORM\GeneratedValue(strategy: 'AUTO')]
+	private ?int $id = null;
 
-	/**
-	 * @ORM\Column(type="datetime", nullable=true)
-	 * @Gedmo\Timestampable(on="create")
-	 */
-	private $createdDateTime;
+	#[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+	#[Gedmo\Timestampable(on: 'create')]
+	private ?\DateTime $createdDateTime = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $iua;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $iua = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $safeId;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $safeId = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $docName;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $docName = null;
 
-	/**
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	private $targetDir;
+	#[ORM\Column(type: Types::STRING, nullable: true)]
+	private ?string $targetDir = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $md5DocName;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $md5DocName = null;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $serviceType;
+	#[ORM\Column(type: Types::STRING, nullable: true)]
+	private ?string $serviceType = null;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set createdDateTime
-     *
-     * @param \DateTime $createdDateTime
-     * @return Annuaire
-     */
-    public function setCreatedDateTime($createdDateTime)
-    {
-        $this->createdDateTime = $createdDateTime;
+	public function setCreatedDateTime(?\DateTime $createdDateTime): static
+	{
+		$this->createdDateTime = $createdDateTime;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get createdDateTime
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedDateTime()
-    {
-        return $this->createdDateTime;
-    }
+	public function getCreatedDateTime(): ?\DateTime
+	{
+		return $this->createdDateTime;
+	}
 
-    /**
-     * Set iua
-     *
-     * @param string $iua
-     * @return Annuaire
-     */
-    public function setIua($iua)
-    {
-        $this->iua = $iua;
+	public function setIua(?string $iua): static
+	{
+		$this->iua = $iua;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get iua
-     *
-     * @return string 
-     */
-    public function getIua()
-    {
-        return $this->iua;
-    }
+	public function getIua(): ?string
+	{
+		return $this->iua;
+	}
 
-    /**
-     * Set docName
-     *
-     * @param string $docName
-     * @return Annuaire
-     */
-    public function setDocName($docName)
-    {
-        $this->docName = $docName;
+	public function setDocName(?string $docName): static
+	{
+		$this->docName = $docName;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get docName
-     *
-     * @return string 
-     */
-    public function getDocName()
-    {
-        return $this->docName;
-    }
+	public function getDocName(): ?string
+	{
+		return $this->docName;
+	}
 
-    /**
-     * Set targetDir
-     *
-     * @param string $targetDir
-     * @return Annuaire
-     */
-    public function setTargetDir($targetDir)
-    {
-        $this->targetDir = $targetDir;
+	public function setTargetDir(?string $targetDir): static
+	{
+		$this->targetDir = $targetDir;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get targetDir
-     *
-     * @return string 
-     */
-    public function getTargetDir()
-    {
-        return $this->targetDir;
-    }
+	public function getTargetDir(): ?string
+	{
+		return $this->targetDir;
+	}
 
-    /**
-     * Set md5DocName
-     *
-     * @param string $md5DocName
-     * @return Annuaire
-     */
-    public function setMd5DocName($md5DocName)
-    {
-        $this->md5DocName = $md5DocName;
+	public function setMd5DocName(?string $md5DocName): static
+	{
+		$this->md5DocName = $md5DocName;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get md5DocName
-     *
-     * @return string 
-     */
-    public function getMd5DocName()
-    {
-        return $this->md5DocName;
-    }
+	public function getMd5DocName(): ?string
+	{
+		return $this->md5DocName;
+	}
 
-	/**
-	 * Set safeId
-	 *
-	 * @param string $safeId
-	 * @return LogQuery
-	 */
-	public function setSafeId($safeId)
+	public function setSafeId(?string $safeId): static
 	{
 		$this->safeId = $safeId;
 
 		return $this;
 	}
 
-	/**
-	 * Get safeId
-	 *
-	 * @return string
-	 */
-	public function getSafeId()
+	public function getSafeId(): ?string
 	{
 		return $this->safeId;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getServiceType()
+	public function getServiceType(): ?string
 	{
 		return $this->serviceType;
 	}
 
-	/**
-	 * @param string $serviceType
-	 * @return Annuaire
-	 */
-	public function setServiceType($serviceType)
+	public function setServiceType(?string $serviceType): static
 	{
 		$this->serviceType = $serviceType;
+
 		return $this;
 	}
-
 }

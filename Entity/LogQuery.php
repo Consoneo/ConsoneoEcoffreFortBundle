@@ -2,30 +2,27 @@
 
 namespace Consoneo\Bundle\EcoffreFortBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * Consoneo\Bundle\ECoffreBundle\Entity\LogQuery
- *
- * @ORM\Table(name="ECoffreFortLogQuery")
- * @ORM\Entity()
- */
+#[ORM\Table(name: 'ECoffreFortLogQuery')]
+#[ORM\Entity]
 class LogQuery
 {
 	const QUERY_PUT         =   'PUT';
 	const QUERY_GET         =   'GET';
 	const QUERY_DEL         =   'DEL';
-    const QUERY_CERT        =   'CERTIFICAT';
-    const QUERY_MOVE        =   'MOVE';
+	const QUERY_CERT        =   'CERTIFICAT';
+	const QUERY_MOVE        =   'MOVE';
 	const QUERY_LIST        =   'LIST';
 	const QUERY_GETPROP     =   'GETPROP';
 	const QUERY_SAFEGETPROP =   'SAFEGETPROP';
 
-    const COFFRE            =   'coffre';
+	const COFFRE            =   'coffre';
 	const TA                =   'tiersArchivage';
 
-	public static $labelReturnCode = [
+	public static array $labelReturnCode = [
 		self::COFFRE    =>  [
 			self::QUERY_PUT =>  [
 				'0'     =>  'Le fichier a été déposé avec succès',
@@ -40,74 +37,74 @@ class LogQuery
 				'-9'    =>  'Fichier non déposé (erreur interne).',
 			],
 			self::QUERY_GET =>  [
-				'0'     =>  'L’archive a été récupérée',
-				'-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+				'0'     =>  'L'archive a été récupérée',
+				'-1'    =>  'Erreur d'encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
 				'-2'    =>  'PART_ID manquant',
 				'-3'    =>  'IUA manquant',
 				'-4'    =>  '(non utilisé)',
 				'-5'    =>  'PART_ID incorrect',
-				'-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
+				'-6'    =>  'Trop d'essais infructueux (mot de passe ou identifiant erroné)',
 				'-7'    =>  'Accès non réalisé en SSL',
 				'-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
-				'-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
+				'-9'    =>  'Aucun fichier n'a été trouvé avec cet IUA',
 				'-10'   =>  'Erreur interne',
 			],
 			self::QUERY_DEL =>  [
-				'0'     =>  'L’archive a été supprimée',
-				'-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+				'0'     =>  'L'archive a été supprimée',
+				'-1'    =>  'Erreur d'encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
 				'-2'    =>  'PART_ID manquant',
 				'-3'    =>  'IUA manquant',
 				'-4'    =>  '(non utilisé)',
 				'-5'    =>  'PART_ID incorrect',
-				'-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
+				'-6'    =>  'Trop d'essais infructueux (mot de passe ou identifiant erroné)',
 				'-7'    =>  'Accès non réalisé en SSL',
 				'-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
-				'-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
+				'-9'    =>  'Aucun fichier n'a été trouvé avec cet IUA',
 				'-10'   =>  'Erreur interne',
 			],
-	        self::QUERY_CERT    =>  [
-	            '0'     =>  'Le certificat de conformité a été récupérée',
-	            '-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
-	            '-2'    =>  'PART_ID manquant',
-	            '-3'    =>  'IUA manquant',
-	            '-4'    =>  '(non utilisé)',
-	            '-5'    =>  'PART_ID incorrect',
-	            '-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
-	            '-7'    =>  'Accès non réalisé en SSL',
-	            '-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
-	            '-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
-	            '-10'   =>  'Erreur interne',
-	            '-11'   =>  'Erreur interne HASH',
-	        ],
-	        self::QUERY_MOVE    =>  [
-	            '0'     =>  'Opération réalisée avec succès',
-	            '-1'    =>  'Erreur d’encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
-	            '-2'    =>  'PART_ID manquant',
-	            '-3'    =>  'IUA manquant',
-	            '-4'    =>  '(non utilisé)',
-	            '-5'    =>  'PART_ID incorrect',
-	            '-6'    =>  'Trop d’essais infructueux (mot de passe ou identifiant erroné)',
-	            '-7'    =>  'Accès non réalisé en SSL',
-	            '-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
-	            '-9'    =>  'Aucun fichier n’a été trouvé avec cet IUA',
-	            '-10'   =>  'Erreur interne',
-	            '-11'   =>  'DEST Manquant',
-	            '-12'   =>  'Erreur impossible de déplacer le fichier',
-	            '-99'   =>  'Service fermé',
-	        ],
+			self::QUERY_CERT    =>  [
+				'0'     =>  'Le certificat de conformité a été récupérée',
+				'-1'    =>  'Erreur d'encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+				'-2'    =>  'PART_ID manquant',
+				'-3'    =>  'IUA manquant',
+				'-4'    =>  '(non utilisé)',
+				'-5'    =>  'PART_ID incorrect',
+				'-6'    =>  'Trop d'essais infructueux (mot de passe ou identifiant erroné)',
+				'-7'    =>  'Accès non réalisé en SSL',
+				'-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
+				'-9'    =>  'Aucun fichier n'a été trouvé avec cet IUA',
+				'-10'   =>  'Erreur interne',
+				'-11'   =>  'Erreur interne HASH',
+			],
+			self::QUERY_MOVE    =>  [
+				'0'     =>  'Opération réalisée avec succès',
+				'-1'    =>  'Erreur d'encodage la valeur YY est incorrecte (elle différentes dans les deux zones.',
+				'-2'    =>  'PART_ID manquant',
+				'-3'    =>  'IUA manquant',
+				'-4'    =>  '(non utilisé)',
+				'-5'    =>  'PART_ID incorrect',
+				'-6'    =>  'Trop d'essais infructueux (mot de passe ou identifiant erroné)',
+				'-7'    =>  'Accès non réalisé en SSL',
+				'-8'    =>  'Identification erronée (Identifiant ou mot de passe erroné)',
+				'-9'    =>  'Aucun fichier n'a été trouvé avec cet IUA',
+				'-10'   =>  'Erreur interne',
+				'-11'   =>  'DEST Manquant',
+				'-12'   =>  'Erreur impossible de déplacer le fichier',
+				'-99'   =>  'Service fermé',
+			],
 		],
 		self::TA    =>  [
 			self::QUERY_PUT         =>  [
-				'0'     =>  'l’objet a été versé avec succès',
+				'0'     =>  'l'objet a été versé avec succès',
 				'-1'    =>  'SafeRoom non valide',
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Type de HASH non supporté',
 				'-8'    =>  'Objet à verser manquant',
-				'-9'    =>  'Le HASH recalculé est différent de celui transmis avec l’objet à archiver',
+				'-9'    =>  'Le HASH recalculé est différent de celui transmis avec l'objet à archiver',
 				'-10'   =>  'Erreur interne',
 				'-11'   =>  'Erreur interne',
 				'-12'   =>  'Dépassement de capacité du coffre',
@@ -121,7 +118,7 @@ class LogQuery
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Archive manquante',
 				'-8'    =>  'Erreur interne',
@@ -137,7 +134,7 @@ class LogQuery
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Archive manquante',
 				'-8'    =>  'Erreur interne',
@@ -152,7 +149,7 @@ class LogQuery
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Aucune archive disponible',
 				'-15'   =>  'Service non opérationnel',
@@ -165,7 +162,7 @@ class LogQuery
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Archive manquante',
 				'-15'   =>  'Service non opérationnel',
@@ -173,12 +170,12 @@ class LogQuery
 				'-17'   =>  'Erreur interne',
 			],
 			self::QUERY_GETPROP     =>  [
-				'0'     =>  'Propriétés de l’archive récupérées avec succès',
+				'0'     =>  'Propriétés de l'archive récupérées avec succès',
 				'-1'    =>  'SafeRoom non valide',
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-7'    =>  'Archive manquante',
 				'-15'   =>  'Service non opérationnel',
@@ -186,12 +183,12 @@ class LogQuery
 				'-17'   =>  'Erreur interne',
 			],
 			self::QUERY_SAFEGETPROP =>  [
-				'0'     =>  'Propriétés de l’archive récupérées avec succès',
+				'0'     =>  'Propriétés de l'archive récupérées avec succès',
 				'-1'    =>  'SafeRoom non valide',
 				'-2'    =>  'Identifiant du coffre non valide',
 				'-3'    =>  'Coffre supprimé',
 				'-4'    =>  'Coffre bloqué',
-				'-5'    =>  'Identifiant d’utilisateur erroné',
+				'-5'    =>  'Identifiant d'utilisateur erroné',
 				'-6'    =>  'Utilisateur non autorisé',
 				'-15'   =>  'Service non opérationnel',
 				'-16'   =>  'Paramètres manquants',
@@ -200,194 +197,109 @@ class LogQuery
 		]
 	];
 
-	/**
-	 * @var integer $id
-	 *
-	 * @ORM\Column(name="id", type="integer")
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
+	#[ORM\Column(name: 'id', type: Types::INTEGER)]
+	#[ORM\Id]
+	#[ORM\GeneratedValue(strategy: 'AUTO')]
+	private ?int $id = null;
 
-	/**
-	 * @ORM\Column(type="datetime", nullable=true)
-	 * @Gedmo\Timestampable(on="create")
-	 */
-	private $createdDateTime;
+	#[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+	#[Gedmo\Timestampable(on: 'create')]
+	private ?\DateTime $createdDateTime = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $safeId;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $safeId = null;
 
-	/**
-	 * @ORM\Column(type="string")
-	 */
-	private $queryType;
+	#[ORM\Column(type: Types::STRING)]
+	private ?string $queryType = null;
 
-	/**
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	private $iua;
+	#[ORM\Column(type: Types::STRING, nullable: true)]
+	private ?string $iua = null;
 
-	/**
-	 * @ORM\Column(type="string", length=3)
-	 */
-	private $returnCode;
+	#[ORM\Column(type: Types::STRING, length: 3)]
+	private ?string $returnCode = null;
 
-	/**
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	private $serviceType;
+	#[ORM\Column(type: Types::STRING, nullable: true)]
+	private ?string $serviceType = null;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	public function getId(): ?int
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set createdDateTime
-     *
-     * @param \DateTime $createdDateTime
-     * @return LogQuery
-     */
-    public function setCreatedDateTime($createdDateTime)
-    {
-        $this->createdDateTime = $createdDateTime;
+	public function setCreatedDateTime(?\DateTime $createdDateTime): static
+	{
+		$this->createdDateTime = $createdDateTime;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get createdDateTime
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedDateTime()
-    {
-        return $this->createdDateTime;
-    }
+	public function getCreatedDateTime(): ?\DateTime
+	{
+		return $this->createdDateTime;
+	}
 
-    /**
-     * Set safeId
-     *
-     * @param string $safeId
-     * @return LogQuery
-     */
-    public function setSafeId($safeId)
-    {
-        $this->safeId = $safeId;
+	public function setSafeId(?string $safeId): static
+	{
+		$this->safeId = $safeId;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get safeId
-     *
-     * @return string 
-     */
-    public function getSafeId()
-    {
-        return $this->safeId;
-    }
+	public function getSafeId(): ?string
+	{
+		return $this->safeId;
+	}
 
-    /**
-     * Set queryType
-     *
-     * @param string $queryType
-     * @return LogQuery
-     */
-    public function setQueryType($queryType)
-    {
-        $this->queryType = $queryType;
+	public function setQueryType(?string $queryType): static
+	{
+		$this->queryType = $queryType;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get queryType
-     *
-     * @return string 
-     */
-    public function getQueryType()
-    {
-        return $this->queryType;
-    }
+	public function getQueryType(): ?string
+	{
+		return $this->queryType;
+	}
 
-    /**
-     * Set iua
-     *
-     * @param string $iua
-     * @return Annuaire
-     */
-    public function setIua($iua)
-    {
-        $this->iua = $iua;
+	public function setIua(?string $iua): static
+	{
+		$this->iua = $iua;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get iua
-     *
-     * @return string 
-     */
-    public function getIua()
-    {
-        return $this->iua;
-    }
+	public function getIua(): ?string
+	{
+		return $this->iua;
+	}
 
-    /**
-     * Set returnCode
-     *
-     * @param string $returnCode
-     * @return LogQuery
-     */
-    public function setReturnCode($returnCode)
-    {
-        $this->returnCode = $returnCode;
+	public function setReturnCode(?string $returnCode): static
+	{
+		$this->returnCode = $returnCode;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get returnCode
-     *
-     * @return string 
-     */
-    public function getReturnCode()
-    {
-        return $this->returnCode;
-    }
+	public function getReturnCode(): ?string
+	{
+		return $this->returnCode;
+	}
 
-	/**
-	 * @return string
-	 */
-	public function getServiceType()
+	public function getServiceType(): ?string
 	{
 		return $this->serviceType;
 	}
 
-	/**
-	 * @param mixed $serviceType
-	 * @return LogQuery
-	 */
-	public function setServiceType($serviceType)
+	public function setServiceType(?string $serviceType): static
 	{
 		$this->serviceType = $serviceType;
+
 		return $this;
 	}
 
-    /**
-     * @return string
-     */
-	public function getLabelReturnCode()
+	public function getLabelReturnCode(): string
 	{
-		return static::$labelReturnCode[$this->getServiceType()][$this->getQueryType()][$this->getReturnCode()];
+		return static::$labelReturnCode[$this->getServiceType()][$this->getQueryType()][$this->getReturnCode()] ?? '';
 	}
 }
