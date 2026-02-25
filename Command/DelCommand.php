@@ -2,14 +2,15 @@
 namespace Consoneo\Bundle\EcoffreFortBundle\Command;
 
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivageMap;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'ecoffrefort:del', description: 'suprimer des fichiers du tiers archivage')]
 class DelCommand extends Command
 {
-	protected static $defaultName = 'ecoffrefort:del';
 
 	private TiersArchivageMap $tiersArchivageMap;
 

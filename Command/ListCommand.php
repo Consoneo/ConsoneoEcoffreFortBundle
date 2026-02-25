@@ -3,15 +3,16 @@ namespace Consoneo\Bundle\EcoffreFortBundle\Command;
 
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivage;
 use Consoneo\Bundle\EcoffreFortBundle\TiersArchivageMap;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'ecoffrefort:list', description: 'lister les fichiers contenu dans un tiers archivage')]
 class ListCommand extends Command
 {
-	protected static $defaultName = 'ecoffrefort:list';
 
 	private TiersArchivageMap $tiersArchivageMap;
 
